@@ -9,6 +9,8 @@ const Team = (team) => {
                 width="30"
             />
             <p>{team.team.name}</p>
+            <p>{team.team.group}</p>
+            <p>{team.team.order}</p>
         </div>
     );
 };
