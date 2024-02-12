@@ -1,13 +1,11 @@
-// AllGroups.jsx
-
 import { useDispatch, useSelector } from "react-redux";
 import { updateTeamGroupAndOrder } from "../../redux/teamSlice";
 import { allTeams } from "../../redux/teamSlice";
-import Hat from "../../components/hat/Hat";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Group from "../../components/group/Group";
+import { Link } from "react-router-dom";
 
-const AllGroups = () => {
+const PageGroups = () => {
     const dispatch = useDispatch();
 
     const teams = useSelector(allTeams);
@@ -18,7 +16,8 @@ const AllGroups = () => {
 
         let order = 1; // Initialisation de l'ordre
         // Parcours des équipes
-        teams.filter((team) => team.playoff == null)
+        teams
+            .filter((team) => team.playoff == null)
             .sort((a, b) => a.hat - b.hat)
             .forEach((team) => {
                 const { id } = team; // Récupération de l'id de l'équipe
@@ -33,16 +32,16 @@ const AllGroups = () => {
     useEffect(() => {
         // Appeler handleGroup une fois après le premier rendu
         handleGroup();
-    }, []); // Dépendance vide pour exécuter une seule fois après le premier rendu
+    }, []);
 
     return (
         <div>
+            <Link to="/matchs">Simulation du calendrier des matchs de la phase de groupe</Link>
             <p>Liste des équipes sélectionnées</p>
             <ul>
-                {/* Générer une liste pour chaque chapeau */}
                 <Group />
             </ul>
         </div>
     );
 };
-export default AllGroups;
+export default PageGroups;

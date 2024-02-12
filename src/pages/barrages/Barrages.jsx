@@ -1,17 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import "./home.css";
+import "./barrages.css";
 import { updateTeamHat } from "../../redux/teamSlice";
 import { allTeams } from "../../redux/teamSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Team from "../../components/team/Team";
 import Hat from "../../components/hat/Hat";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const Barrages = () => {
     const dispatch = useDispatch();
     const teams = useSelector(allTeams);
     const teamsPlayOff = teams.filter((team) => team.playoff !== null);
-    const [showPlayoff, setShowPlayoff] = useState(true);
+    const [showPlayoff, setShowPlayoff] = useState(false);
 
     // Obtenir les chapeaux uniques présents dans les équipes
     const uniqueHats = [1, 2, 3, 4];
@@ -19,7 +19,7 @@ const Home = () => {
     /**
      * Tirage au sort parmi les playoff pour trouver les équipes qui complètent le chapeau 4
      */
-    const handleClick = () => {
+    const handlePlayOff = () => {
         const selectRandomTeams = (teamsPlayOff) => {
             const randomIndices = [];
             while (randomIndices.length < 3 && teamsPlayOff.length > 0) {
@@ -38,9 +38,12 @@ const Home = () => {
             const selectedTeamId = selectedTeamIds[i];
             dispatch(updateTeamHat(selectedTeamId));
         }
-        setShowPlayoff(false);
+        setShowPlayoff(true);
     };
 
+    useEffect(() => {
+        handlePlayOff();
+    }, []);
     return (
         <div>
             <div>
@@ -54,20 +57,8 @@ const Home = () => {
                     ))}
                 </ul>
             </div>
-            <div>
-                <p>Liste des équipes en ballotage</p>
-                {/* Générer une liste pour chaque chapeau */}
-                <ul className="list">
-                    {/* Filtrer les équipes par chapeau */}
-                    {teamsPlayOff.map((team, index) => (
-                        <li key={index}>
-                            <Team team={team} />
-                        </li>
-                    ))}
-                </ul>
-            </div>
         </div>
     );
 };
 
-export default Home;
+export default Barrages;

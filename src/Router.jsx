@@ -1,16 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
-import AllGroups from "./pages/allgroups/AllGroups";
+import PageGroups from "./pages/pageGroups/PageGroups";
+import PageMatchs from "./pages/pageMatchs/PageMatchs";
+import Header from "./components/header/Header";
+import Barrages from "./pages/barrages/Barrages";
 
 const Router = () => {
     return (
-        <BrowserRouter>
+            <BrowserRouter>
+            <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/groupes" element={<AllGroups />} />
-                    {/* <Route path="/tirage" element={<Tirage />} /> */}
+                    <Route path="/barrages" element={<Barrages />} />
+                    <Route path="/groupes" element={<PageGroups />} />
+                    <Route path="/matchs" element={<PageMatchs />} />
                 </Routes>
-        </BrowserRouter>
+            </BrowserRouter>
     );
 };
 
