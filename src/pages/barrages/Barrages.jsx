@@ -16,6 +16,7 @@ const Barrages = () => {
     // Obtenir les chapeaux uniques présents dans les équipes
     const uniqueHats = [1, 2, 3, 4];
 
+
     /**
      * Tirage au sort parmi les playoff pour trouver les équipes qui complètent le chapeau 4
      */
@@ -44,6 +45,7 @@ const Barrages = () => {
     useEffect(() => {
         handlePlayOff();
     }, []);
+
     return (
         <div>
             <div>

@@ -7,15 +7,15 @@ import Barrages from "./pages/barrages/Barrages";
 
 const Router = () => {
     return (
-            <BrowserRouter>
+        <BrowserRouter>
             <Header />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/barrages" element={<Barrages />} />
-                    <Route path="/groupes" element={<PageGroups />} />
-                    <Route path="/matchs" element={<PageMatchs />} />
-                </Routes>
-            </BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/barrages" element={<Barrages />} />
+                <Route path="/groupes" element={<PageGroups />} />
+                <Route path="/matchs" element={<PageMatchs />} />
+            </Routes>
+        </BrowserRouter>
     );
 };
 

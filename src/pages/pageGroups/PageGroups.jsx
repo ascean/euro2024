@@ -3,12 +3,22 @@ import { updateTeamGroupAndOrder } from "../../redux/teamSlice";
 import { allTeams } from "../../redux/teamSlice";
 import { useEffect } from "react";
 import Group from "../../components/group/Group";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const PageGroups = () => {
     const dispatch = useDispatch();
 
     const teams = useSelector(allTeams);
+
+    const teamsPlayOff = teams.filter((team) => team.playoff !== null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Redirection vers la page des barrages si le nombre d'équipes en play-off est égal à 12
+        if (teamsPlayOff.length === 12) {
+            navigate("/barrages");
+        }
+    }, [navigate, teamsPlayOff]);
 
     const handleGroup = () => {
         // Index de l'équipe dans chaque hat

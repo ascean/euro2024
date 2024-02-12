@@ -1,8 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./home.css";
-import { updateTeamHat } from "../../redux/teamSlice";
+import {
+    clearTeamsPlayoff,
+    updateTeamHat,
+    resetTeams,
+} from "../../redux/teamSlice";
 import { allTeams } from "../../redux/teamSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Team from "../../components/team/Team";
 import Hat from "../../components/hat/Hat";
 import { Link } from "react-router-dom";
@@ -10,6 +14,11 @@ import { Link } from "react-router-dom";
 const Home = () => {
     const dispatch = useDispatch();
     const teams = useSelector(allTeams);
+
+    const handleResetTeams = () => {
+        dispatch(resetTeams());
+    };
+
     const teamsPlayOff = teams.filter((team) => team.playoff !== null);
     const [showPlayoff, setShowPlayoff] = useState(true);
 
@@ -41,6 +50,9 @@ const Home = () => {
         setShowPlayoff(false);
     };
 
+    useEffect(() => {
+        handleResetTeams()
+    },[])
     return (
         <div>
             <div>

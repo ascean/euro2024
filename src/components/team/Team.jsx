@@ -9,6 +9,7 @@ const Team = (team) => {
                 width="30"
             />
             <p>{team.team.name}</p>
+            <p>{team.team.id}</p>
         </div>
     );
 };

@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TEAMS } from "../datas/teams";
+import { getDatas } from "../services/servicesAPI";
+// import { TEAMS } from "../datas/teams";
 
+
+const TEAMS = await getDatas()
 // nbPts : nombre de points
 // nbMatchs : nombre de matchs joués
 // nbWin : nombre de matchs gagnés
@@ -26,12 +29,28 @@ export const teamSlice = createSlice({
         matchs: [],
     })), // Ajout de group et order à chaque équipe
     reducers: {
+        // Réinitialiser le state des équipes
+        resetTeams: (state) => {
+            return TEAMS.map((team) => ({
+                ...team,
+                group: null,
+                order: null,
+                nbPts: 0,
+                nbMatchs: 0,
+                nbWin: 0,
+                nbNuls: 0,
+                nbLost: 0,
+                nbButsPlus: 0,
+                nbButsMinus: 0,
+                diffButs: 0,
+                matchs: [],
+            }));
+        },
         updateTeamHat: (state, action) => {
             const id = action.payload;
             const teamToUpdate = state.find((team) => team.id === id);
             if (teamToUpdate) {
                 teamToUpdate.playoff = null;
-                console.log("update playoff", id);
             }
         },
         updateTeamGroupAndOrder: (state, action) => {
@@ -55,7 +74,6 @@ export const teamSlice = createSlice({
         },
         addMatchId(state, action) {
             const { team1, team2, nbPts1, nbPts2 } = action.payload;
-            console.log(nbPts1, nbPts2);
             let team;
             let resultat =
                 nbPts1 === nbPts2 ? "nul" : nbPts1 > nbPts2 ? "team1" : "team2";
@@ -112,5 +130,6 @@ export const {
     clearTeamsPlayoff,
     updateTeamGroupAndOrder,
     addMatchId,
+    resetTeams
 } = teamSlice.actions;
 export default teamSlice.reducer;
