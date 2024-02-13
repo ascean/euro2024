@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addMatchId, allTeams } from "../../redux/teamSlice";
+import { allTeams,  updateScores } from "../../redux/teamSlice";
 import { useNavigate } from "react-router-dom";
 import Match from "../../components/match/Match";
 import "./pagematchs.css";
@@ -11,6 +11,7 @@ const PageMatchs = () => {
     const teamsPlayOff = teams.filter((team) => team.playoff !== null);
     const navigate = useNavigate();
     const [groupMatches, setGroupMatches] = useState({});
+    const [playGames, setPlayGames] = useState(false)
 
     useEffect(() => {
         // Redirection vers la page des barrages si le nombre d'équipes en play-off est égal à 12
@@ -92,30 +93,25 @@ const PageMatchs = () => {
          * Mise à jour des points dans le store
          * @param {*} allMatches Ensemble de tous les matchs de tous les groupes
         */
-        const updatePoints = (allMatches) => {
-            allMatches.forEach((match) => {
-                dispatch(
-                    addMatchId({
-                        team1: match[0],
-                        team2: match[1],
-                        nbPts1: match[2],
-                        nbPts2: match[3],
-                    })
-                );
-            });
+        const handleMatchsAndPoints = (allMatches) => {
+            dispatch(updateScores(allMatches))
         };
         
         // Mise à jour de groupMatches avec les nouvelles valeurs pour rendu avec les valeurs mises à jour
         setGroupMatches(updatedGroupMatches);
 
         //mise à jour des points
-        updatePoints(Object.values(updatedGroupMatches).flat());
+        handleMatchsAndPoints(Object.values(updatedGroupMatches).flat());
 
     }, []);
 
+    const handlePlayGames = () => {
+        setPlayGames(true)
+    }
     return (
         <div>
             <p>Liste des matchs</p>
+            <button onClick={handlePlayGames}>Jouer les matchs</button>
             <ul>
                 <div className="all-groups">
                     {Object.keys(groupMatches).map((group) => (
@@ -128,6 +124,7 @@ const PageMatchs = () => {
                                     team2={match[1]}
                                     nbPts1={match[2]}
                                     nbPts2={match[3]}
+                                    show={playGames}
                                 />
                             ))}
                         </div>

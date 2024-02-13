@@ -1,11 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
-import { addMatchId, allTeams } from "../../redux/teamSlice";
-import { useState } from "react";
+import {  useSelector } from "react-redux";
+import {  allTeams } from "../../redux/teamSlice";
 import Team from "../team/Team";
 import "./match.css";
 
 // Composant Match pour représenter un match entre deux équipes
-const Match = ({ team1, team2, nbPts1, nbPts2 }) => {
+const Match = ({ team1, team2, nbPts1, nbPts2, show }) => {
     const teams = useSelector(allTeams);
     const infosTeam1 = teams.find((t) => t.id === team1);
     const infosTeam2 = teams.find((t) => t.id === team2);
@@ -14,10 +13,10 @@ const Match = ({ team1, team2, nbPts1, nbPts2 }) => {
         <div>
             <div className="match">
                 <Team team={infosTeam1} />
-                <span>
+                {show && <span>
                     {" "}
                     {nbPts1}⚽ {nbPts2}
-                </span>
+                </span>}
                 <Team team={infosTeam2} />
             </div>
         </div>
