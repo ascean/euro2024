@@ -12,12 +12,12 @@ const Match = ({ team1, team2, nbPts1, nbPts2, show }) => {
     return (
         <div>
             <div className="match">
-                <Team team={infosTeam1} />
+                <Team team={infosTeam1} order={null} />
                 {show && <span>
                     {" "}
                     {nbPts1}⚽ {nbPts2}
                 </span>}
-                <Team team={infosTeam2} />
+                <Team team={infosTeam2} order={null} />
             </div>
         </div>
     );

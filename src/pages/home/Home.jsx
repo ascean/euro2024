@@ -73,7 +73,7 @@ const Home = () => {
                     {/* Filtrer les équipes par chapeau */}
                     {teamsPlayOff.map((team, index) => (
                         <li key={index}>
-                            <Team team={team} />
+                            <Team team={team} order={null} />
                         </li>
                     ))}
                 </ul>

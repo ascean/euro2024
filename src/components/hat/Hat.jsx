@@ -13,7 +13,7 @@ const Hat = (hat) => {
                     .filter((team) => team.hat === hat.hat & team.playoff===null)
                     .map((team, index) => (
                         <li key={index}>
-                            <Team team={team} />
+                            <Team team={team} order={null}/>
                         </li>
                     ))}
             </ul>

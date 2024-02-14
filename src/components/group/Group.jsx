@@ -23,7 +23,7 @@ const Group = () => {
                     <h2>Groupe {group}</h2>
                     <ul className="list">
                         {groupedTeams[group].sort((a,b)=> a.order-b.order).map((team) => (
-                            <li key={team.id}> <Team team={team} /></li>
+                            <li key={team.id}> <Team team={team} order={null} /></li>
                         ))}
                     </ul>
                 </div>

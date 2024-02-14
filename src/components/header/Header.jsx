@@ -11,10 +11,16 @@ const Header = () => {
                     <NavLink to="/barrages">Barrages</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/groupes">Phase de groupe</NavLink>
+                    <NavLink to="/groupes">Créations des groupes</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/matchs">Phase éliminatoire</NavLink>
+                    <NavLink to="/matchs">Phase de groupe</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/classement">Classement</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/eliminatoire">Eliminatoire</NavLink>
                 </li>
             </ul>
         </div>
