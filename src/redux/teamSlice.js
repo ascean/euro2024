@@ -1,6 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getDatas } from "../services/servicesAPI";
-// import { TEAMS } from "../datas/teams";
+
+// Fonction utilitaire pour générer les valeurs par défaut d'une équipe
+const getDefaultTeamValues = () => ({
+    group: null,
+    order: null,
+    nbPts: 0,
+    nbMatchs: 0,
+    nbWin: 0,
+    nbNuls: 0,
+    nbLost: 0,
+    nbButsPlus: 0,
+    nbButsMinus: 0,
+    diffButs: 0,
+    matchs: [],
+    sixteenth: '',
+    eighteenth:'',
+    forteenth:'',
+    half: '',
+    finale:''
+});
 
 const TEAMS = await getDatas();
 // nbPts : nombre de points
@@ -15,47 +34,32 @@ export const teamSlice = createSlice({
     name: "teams",
     initialState: TEAMS.map((team) => ({
         ...team,
-        group: null,
-        order: null,
-        nbPts: 0,
-        nbMatchs: 0,
-        nbWin: 0,
-        nbNuls: 0,
-        nbLost: 0,
-        nbButsPlus: 0,
-        nbButsMinus: 0,
-        diffButs: 0,
-        matchs: [],
+        ...getDefaultTeamValues(),
     })), // Ajout de group et order à chaque équipe
     reducers: {
         // Réinitialiser le state des équipes
         resetTeams: (state) => {
             return TEAMS.map((team) => ({
                 ...team,
-                group: null,
-                order: null,
-                nbPts: 0,
-                nbMatchs: 0,
-                nbWin: 0,
-                nbNuls: 0,
-                nbLost: 0,
-                nbButsPlus: 0,
-                nbButsMinus: 0,
-                diffButs: 0,
-                matchs: [],
+                ...getDefaultTeamValues(),
             }));
         },
         updateTeamHat: (state, action) => {
-            const id = action.payload;
-            const teamToUpdate = state.find((team) => team.id === id);
-            if (teamToUpdate) {
-                teamToUpdate.playoff = null;
-            }
+            const teamsHat = action.payload;
+            teamsHat.map((teamHat) => {
+                const teamToUpdate = TEAMS.find((team) => team.id === teamHat);
+                if (teamToUpdate) {
+                    teamToUpdate.playoff = null;
+                }
+            })
         },
         updateTeamGroupAndOrder: (state, action) => {
-            const { id, group, order } = action.payload;
+            const newTeams = action.payload.newTeams;
+            console.log(newTeams)
             return state.map((team) => {
-                if (team.id === id) {
+                const teamToUpdate = newTeams.find(newTeam => newTeam.id === team.id);
+                if (teamToUpdate) {
+                    const {group, order} = teamToUpdate
                     return {
                         ...team,
                         group,
@@ -65,7 +69,6 @@ export const teamSlice = createSlice({
                 return team;
             });
         },
-
         clearTeamsPlayoff: (state) => {
             if (state.teamsPlayOff) {
                 state.teamsPlayOff.splice(0, state.teamsPlayOff.length);
@@ -122,92 +125,19 @@ export const teamSlice = createSlice({
                 }
             });
         },
-        addMatchIdOld(state, action) {
-            const { team1, team2, nbPts1, nbPts2 } = action.payload;
-            let team;
-            let resultat =
-                nbPts1 === nbPts2 ? "nul" : nbPts1 > nbPts2 ? "team1" : "team2";
-            //update team1
-            team = state.find((t) => t.id === team1);
-            if (!team.matchs.includes(team2)) {
-                team.matchs.push(team2);
-                team.nbMatchs += 1;
-                team.nbButsPlus += nbPts1;
-                team.nbButsMinus += nbPts2;
-                team.diffButs += nbPts1 - nbPts2;
-                if (resultat === "nul") {
-                    team.nbNuls += 1;
-                    team.nbPts += 1;
+        updateSixteen: (state, action) => {
+            const { id, sixteenth } = action.payload;
+            return state.map((team) => {
+                if (team.id === id) {
+                    return {
+                        ...team,
+                        sixteenth,
+                    };
                 }
-                //team1 WIN
-                if (resultat === "team1") {
-                    team.nbWin += 1;
-                    team.nbPts += 3;
-                }
-                //team1 LOST
-                if (resultat === "team2") {
-                    team.nbLost += 1;
-                }
-            }
-            //upadte team2
-            team = state.find((t) => t.id === team2);
-            if (!team.matchs.includes(team1)) {
-                team.matchs.push(team1);
-                team.nbMatchs = team.J + 1;
-                team.nbButsPlus += nbPts2;
-                team.nbButsMinus += nbPts1;
-                team.diffButs += nbPts2 - nbPts1;
-                if (resultat === "nul") {
-                    team.nbNuls += 1;
-                    team.nbPts += 1;
-                }
-                //team1 WIN
-                if (resultat === "team2") {
-                    team.nbWin += 1;
-                    team.nbPts += 3;
-                }
-                //team2 LOST
-                if (resultat === "team1") team.nbLost += 1;
-            }
+                return team;
+            });
         },
-        addMatchOld(state, action) {
-            const { team1, team2 } = action.payload;
-            let team;
-            //update team1
-            team = state.find((t) => t.id === team1);
-            if (!team.matchs.includes(team2)) {
-                team.matchs.push(team2);
-            }
-            //upadte team2
-            team = state.find((t) => t.id === team2);
-            if (!team.matchs.includes(team1)) {
-                team.matchs.push(team1);
-            }
-        },
-        updatePointsOld(state, action) {
-            console.log("updtaepoints");
-            //nbPts1 : nombre de buts de l'équipe en cours
-            //nbPts2 : nombre de buts de l'équipe adverse
-            const { teamToUpdate, nbPts1, nbPts2 } = action.payload;
-            let resultat =
-                nbPts1 === nbPts2 ? "nul" : nbPts1 > nbPts2 ? "win" : "lost";
-            const team = state.find((t) => t.id === teamToUpdate);
-            team.nbMatchs += 1;
-            team.nbButsPlus += nbPts1;
-            team.nbButsMinus += nbPts2;
-            team.diffButs += nbPts1 - nbPts2;
-            if (resultat === "nul") {
-                team.nbNuls += 1;
-                team.nbPts += 1;
-            }
-            if (resultat === "win") {
-                team.nbWin += 1;
-                team.nbPts += 3;
-            }
-            if (resultat === "lost") {
-                team.nbLost += 1;
-            }
-        },
+
     },
 });
 

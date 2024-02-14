@@ -14,13 +14,13 @@ const Header = () => {
                     <NavLink to="/groupes">Créations des groupes</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/matchs">Phase de groupe</NavLink>
+                    <NavLink to="/matchs">Matchs de la phase de groupe</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/classement">Classement</NavLink>
+                    <NavLink to="/classement">Classement des équipes (2 meilleurs qualifiées)</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/eliminatoire">Eliminatoire</NavLink>
+                    <NavLink to="/eliminatoire">Phase éliminatoire</NavLink>
                 </li>
             </ul>
         </div>

@@ -35,10 +35,13 @@ const Barrages = () => {
         };
 
         const selectedTeamIds = selectRandomTeams(teamsPlayOff);
-        for (let i = 0; i < selectedTeamIds.length; i++) {
-            const selectedTeamId = selectedTeamIds[i];
-            dispatch(updateTeamHat(selectedTeamId));
-        }
+        console.log(teamsPlayOff);
+        console.log(selectedTeamIds);
+        // for (let i = 0; i < selectedTeamIds.length; i++) {
+        //     const selectedTeamId = selectedTeamIds[i];
+        //     dispatch(updateTeamHat(selectedTeamId));
+        // }
+        dispatch(updateTeamHat(selectedTeamIds));
         setShowPlayoff(true);
     };
 

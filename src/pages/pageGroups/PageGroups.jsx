@@ -26,17 +26,22 @@ const PageGroups = () => {
 
         let order = 1; // Initialisation de l'ordre
         // Parcours des équipes
+        let newTeams = []
         teams
             .filter((team) => team.playoff == null)
             .sort((a, b) => a.hat - b.hat)
             .forEach((team) => {
                 const { id } = team; // Récupération de l'id de l'équipe
                 const group = String.fromCharCode(65 + teamIndex); // Calcul du groupe (A, B, C, etc.)
-                dispatch(updateTeamGroupAndOrder({ id, group, order }));
+                newTeams.push({ id, group, order })
+                // dispatch(updateTeamGroupAndOrder({ id, group, order }));
                 // Passage à l'équipe suivante dans le "hat"
                 teamIndex = (teamIndex + 1) % 6;
                 order++;
             });
+            console.log(newTeams)
+            
+            dispatch(updateTeamGroupAndOrder({ newTeams}));
     };
 
     useEffect(() => {

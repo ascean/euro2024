@@ -28,20 +28,23 @@ const PageEliminatoire = () => {
                 tmp = tab[i];
                 tab[i] = tab[j];
                 tab[j] = tmp;
-            }
-            return tab;
+        }
+        return tab;
         
     }
 
     useEffect(() => {
         const orderedTeams = getBestTeams()
-        
         setBestTeams(shakeArray(orderedTeams));
     }, []);
 
     return (
         <div >
-            <button>Jouer</button>
+            <button>16ème de finale</button>
+            <button>8ème de finale</button>
+            <button>Quart de finale</button>
+            <button>Demi finale</button>
+            <button>Finale</button>
             {bestTeams.map((team) => (
                 <p key={team.id} className="best-team">{team.name}{" "}{team.group }</p>
             ))}
