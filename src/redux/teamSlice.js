@@ -10,16 +10,120 @@ const getDefaultTeamValues = () => ({
     nbWin: 0,
     nbNuls: 0,
     nbLost: 0,
-    nbButsPlus: 0,
-    nbButsMinus: 0,
-    diffButs: 0,
+    nbGoalsPlus: 0,
+    nbGoalsMinus: 0,
+    diffGoals: 0,
+    matchsList: [],
     matchs: [],
-    sixteenth: '',
-    eighteenth:'',
-    forteenth:'',
-    half: '',
-    finale:''
+    round16: false,
+    round8: 0,
+    round4: false,
+    round2: false,
+    round1: false,
 });
+
+// Fonction utilitaire pour mettre à jour les scores d'une équipe
+// function updateTeamScores1(team, match, resultat) {
+// if (!team.matchs.includes(match[1])) {
+//     team.matchs.push(match[1]);
+//     team.nbMatchs += 1;
+//     team.nbGoalsPlus += match[2];
+//     team.nbGoalsMinus += match[3];
+//     team.diffGoals += match[2] - match[3];
+
+//     if (resultat === "nul") {
+//         team.nbNuls += 1;
+//         team.nbPts += 1;
+//     } else if (resultat === "team1") {
+//         team.nbWin += 1;
+//         team.nbPts += 3;
+//     } else if (resultat === "team2") {
+//         team.nbLost += 1;
+//     }
+// }
+// const teamToSearch = !team.matchsList.find(objet => objet.id === match[1])
+// if (!teamToSearch) {
+//     team.nbMatchs += 1;
+//     team.nbGoalsPlus += match[2];
+//     team.nbGoalsMinus += match[3];
+//     team.diffGoals += match[2] - match[3];
+
+//     if (resultat === "nul") {
+//         team.nbNuls += 1;
+//         team.nbPts += 1;
+//     } else if (resultat === "team1") {
+//         team.nbWin += 1;
+//         team.nbPts += 3;
+//     } else if (resultat === "team2") {
+//         team.nbLost += 1;
+//     }
+//     const newMatch = {
+//         step : 1,
+//         self : match[0],
+//         adverse : match[1],
+//         nbGoalsIn : match[2],
+//         nbGoalsOut : match[3]
+//     }
+
+// }
+// }
+
+// Fonction utilitaire pour mettre à jour les scores d'une équipe
+// function updateTeamScores2(team, match, resultat) {
+//     if (!team.matchs.includes(match[0])) {
+//         team.matchs.push(match[0]);
+//         team.nbMatchs += 1;
+//         team.nbGoalsPlus += match[3];
+//         team.nbGoalsMinus += match[2];
+//         team.diffGoals += match[3] - match[2];
+
+//         if (resultat === "nul") {
+//             team.nbNuls += 1;
+//             team.nbPts += 1;
+//         } else if (resultat === "team2") {
+//             team.nbWin += 1;
+//             team.nbPts += 3;
+//         } else if (resultat === "team1") {
+//             team.nbLost += 1;
+//         }
+//     }
+// }
+// // Fonction utilitaire pour mettre à jour les scores d'une équipe
+// function updateTeamScores(team, match) {
+//     console.log(match);
+//     team.round8 = match;
+// }
+
+function updateTeamScore(team, match) {
+    // Vérifier si l'équipe correspondante existe dans l'état
+    if (team) {
+        // Si l'équipe a déjà une liste de matchs, ajoutez-y ce match, sinon créez-en une nouvelle
+        if (!team.matchList) {
+            team.matchList = [match];
+        } else {
+            team.matchList.push(match);
+        }
+    } else {
+        console.error(
+            `L'équipe avec l'ID ${team.id} n'a pas été trouvée dans l'état.`
+        );
+    }
+    const resultat =
+        match[3] === match[4] ? "nul" : match[3] > match[4] ? "team1" : "team2";
+    team.nbMatchs += 1;
+    team.nbGoalsPlus += match[3];
+    team.nbGoalsMinus += match[4];
+    team.diffGoals += match[3] - match[4];
+    if (resultat === "nul") {
+        team.nbNuls += 1;
+        team.nbPts += 1;
+    } else if (resultat === "team1") {
+        team.nbWin += 1;
+        team.nbPts += 3;
+    } else if (resultat === "team2") {
+        team.nbLost += 1;
+    }
+}
 
 const TEAMS = await getDatas();
 // nbPts : nombre de points
@@ -27,9 +131,9 @@ const TEAMS = await getDatas();
 // nbWin : nombre de matchs gagnés
 // nbNul : nombre de matchs nuls
 // nbLost : nombre de matchs perdus
-// nbButsPlus : nombre de buts marqués (« buts “pour” »)
-// nbButsMinus : nombre de buts encaissés (« buts “contre” »)
-// diffButs : différence de buts (nbButsPlus-nbButsMinus)
+// nbGoalsPlus : nombre de Goals marqués (« Goals “pour” »)
+// nbGoalsMinus : nombre de Goals encaissés (« Goals “contre” »)
+// diffGoals : différence de Goals (nbGoalsPlus-nbGoalsMinus)
 export const teamSlice = createSlice({
     name: "teams",
     initialState: TEAMS.map((team) => ({
@@ -38,7 +142,7 @@ export const teamSlice = createSlice({
     })), // Ajout de group et order à chaque équipe
     reducers: {
         // Réinitialiser le state des équipes
-        resetTeams: (state) => {
+        initState: (state) => {
             return TEAMS.map((team) => ({
                 ...team,
                 ...getDefaultTeamValues(),
@@ -46,20 +150,24 @@ export const teamSlice = createSlice({
         },
         updateTeamHat: (state, action) => {
             const teamsHat = action.payload;
-            teamsHat.map((teamHat) => {
-                const teamToUpdate = TEAMS.find((team) => team.id === teamHat);
-                if (teamToUpdate) {
-                    teamToUpdate.playoff = null;
+            return state.map((team) => {
+                if (teamsHat.includes(team.id)) {
+                    return {
+                        ...team,
+                        playoff: null,
+                    };
                 }
-            })
+                return team;
+            });
         },
         updateTeamGroupAndOrder: (state, action) => {
             const newTeams = action.payload.newTeams;
-            console.log(newTeams)
             return state.map((team) => {
-                const teamToUpdate = newTeams.find(newTeam => newTeam.id === team.id);
+                const teamToUpdate = newTeams.find(
+                    (newTeam) => newTeam.id === team.id
+                );
                 if (teamToUpdate) {
-                    const {group, order} = teamToUpdate
+                    const { group, order } = teamToUpdate;
                     return {
                         ...team,
                         group,
@@ -75,69 +183,70 @@ export const teamSlice = createSlice({
             }
         },
         updateScores(state, action) {
-            const matches = action.payload;
-            matches.map((match) => {
-                let resultat =
-                    match[2] === match[3]
-                        ? "nul"
-                        : match[2] > match[3]
-                        ? "team1"
-                        : "team2";
-                const teamToUpdate1 = state.find((t) => t.id === match[0]);
-                if (!teamToUpdate1.matchs.includes(match[1])) {
-                    teamToUpdate1.matchs.push(match[1]);
-                    teamToUpdate1.nbMatchs += 1;
-                    teamToUpdate1.nbButsPlus += match[2];
-                    teamToUpdate1.nbButsMinus += match[3];
-                    teamToUpdate1.diffButs += match[2] - match[3];
-                    if (resultat === "nul") {
-                        teamToUpdate1.nbNuls += 1;
-                        teamToUpdate1.nbPts += 1;
-                    }
-                    //team1 WIN
-                    if (resultat === "team1") {
-                        teamToUpdate1.nbWin += 1;
-                        teamToUpdate1.nbPts += 3;
-                    }
-                    //team1 LOST
-                    if (resultat === "team2") {
-                        teamToUpdate1.nbLost += 1;
-                    }
-                }
-                const teamToUpdate2 = state.find((t) => t.id === match[1]);
-                if (!teamToUpdate2.matchs.includes(match[0])) {
-                    teamToUpdate2.matchs.push(match[0]);
-                    teamToUpdate2.nbMatchs += 1;
-                    teamToUpdate2.nbButsPlus += match[3];
-                    teamToUpdate2.nbButsMinus += match[2];
-                    teamToUpdate2.diffButs += match[3] - match[2];
-                    if (resultat === "nul") {
-                        teamToUpdate2.nbNuls += 1;
-                        teamToUpdate2.nbPts += 1;
-                    }
-                    //team1 WIN
-                    if (resultat === "team2") {
-                        teamToUpdate2.nbWin += 1;
-                        teamToUpdate2.nbPts += 3;
-                    }
-                    //team2 LOST
-                    if (resultat === "team1") teamToUpdate2.nbLost += 1;
-                }
+            const newMatchLists = action.payload;
+            console.log(newMatchLists);
+            newMatchLists.forEach((match) => {
+                const matchTeam1 = match;
+                const team1 = state.find((team) => team.id === matchTeam1[1]);
+                updateTeamScore(team1, matchTeam1);
+
+                const matchTeam2 = [
+                    match[0],
+                    match[2],
+                    match[1],
+                    match[4],
+                    match[3],
+                ];
+                const team2 = state.find((team) => team.id === matchTeam2[1]);
+                updateTeamScore(team2, matchTeam2);
             });
         },
-        updateSixteen: (state, action) => {
-            const { id, sixteenth } = action.payload;
+        updateRound16: (state, action) => {
+            const selectedTeams = action.payload;
+            console.log(selectedTeams);
+            selectedTeams.forEach((team) => {
+                const teamId = team.id;
+                const selectedTeam = state.find((team) => team.id === teamId);
+                selectedTeam.round16 = true;
+            });
+        },
+        updateRound8: (state, action) => {
+            const { teamId, order } = action.payload;
             return state.map((team) => {
-                if (team.id === id) {
+                if (team.id === teamId) {
                     return {
                         ...team,
-                        sixteenth,
+                        round8: order,
                     };
                 }
                 return team;
             });
         },
-
+        updateRound4: (state, action) => {
+            const { selectedTeams, order } = action.payload;
+            console.log(selectedTeams);
+            selectedTeams.forEach((team) => {
+                const teamId = team.id;
+                const selectedTeam = state.find((team) => team.id === teamId);
+                selectedTeam.round4 = order;
+            });
+        },
+        updateRound2: (state, action) => {
+            const selectedTeams = action.payload;
+            selectedTeams.forEach((team) => {
+                const teamId = team.id;
+                const selectedTeam = state.find((team) => team.id === teamId);
+                selectedTeam.round2 = true;
+            });
+        },
+        updateRound1: (state, action) => {
+            const selectedTeams = action.payload;
+            selectedTeams.forEach((team) => {
+                const teamId = team.id;
+                const selectedTeam = state.find((team) => team.id === teamId);
+                selectedTeam.round1 = true;
+            });
+        },
     },
 });
 
@@ -147,7 +256,12 @@ export const {
     updateTeamHat,
     clearTeamsPlayoff,
     updateTeamGroupAndOrder,
-    resetTeams,
+    initState,
     updateScores,
+    updateRound16,
+    updateRound8,
+    updateRound4,
+    updateRound2,
+    updateRound1,
 } = teamSlice.actions;
 export default teamSlice.reducer;

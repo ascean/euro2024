@@ -10,6 +10,9 @@ const Team = ({team, order}) => {
             />
             <p>{team.name}</p>
             <p>{team.nbPts} points</p>
+            <p>{team.nbMatchs} matchs</p>
+            <p>{team.nbGoalsPlus} buts marqués</p>
+            <p>{team.nbGoalsMinus} buts encaissés</p>
             <p>{order}</p>
             {order<3 ? <p>Qualifié</p> : <p>Eliminé</p>}
         </div>

@@ -1,0 +1,33 @@
+id                  int         identifiant
+name                string      nom du pays
+primary_color       string      couleur1 (code hexadecimal)
+secondary_color     string      couleur2 (code hexadecimal)
+fifa_ranking        int         
+code                string      code pays
+hat                 int/null    numero de chapeau  (A,B,C OU D)
+playoff             string/null code du groupe playoff (A, B, C ou D)
+group		    string/null groupe
+order		    int/null 	order
+nbPts               int         nombre de points
+nbMatchs            int         nombre de matchs joués
+nbWin               int         nombre de matchs gagnés
+nbNul               int         nombre de matchs nuls
+nbLost              int         nombre de matchs perdus
+nbGoalsPlus         int         nombre de buts marqués (« buts “pour” »)
+nbGoalsMinus        int         nombre de buts encaissés (« buts “contre” »)
+diffGoals            int         différence de buts (nbGoalsPlus-nbGoalsMinus)
+matchsList          array of object
+    {
+        step        int         étape de la compétition 
+        self        int         id équipe
+        adverse     int         id équipe adverse 
+        nbGoalsIn   int         nb de buts marqués 
+        nbGoalsOut  int         nb buts encaissés
+    }
+step1               bool        Participation à l'étape 1
+step2               bool        Participation à l'étape 2
+step3               bool        Participation à l'étape 3
+step4               bool        Participation à l'étape 4
+step5               bool        Participation à l'étape 5
+step6               bool        Participation à l'étape 6
+step7               bool        Participation à l'étape 7

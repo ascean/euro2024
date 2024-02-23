@@ -1,0 +1,60 @@
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: map-get($font, font-2);
+    background-color: $bgcolor-body;
+    color: $color-text;
+
+    html {
+        font-size: 16px; /* Taille de base */
+    }
+
+    h1 {
+        font-family: map-get($font, font-1);
+        font-size: 3.5rem; /* 2 fois la taille de base (32 pixels) */
+        line-height: 1.5;
+        color: $color-title;
+    }
+
+    h2 {
+        font-size: 2rem; /* 1.5 fois la taille de base (24 pixels) */
+        line-height: 1.4;
+    }
+
+    h3 {
+        font-size: 1.3rem; /* 1.2 fois la taille de base (19.2 pixels) */
+        line-height: 1.3;
+    }
+    p, span {
+        font-size: 1rem; /* Taille de base */
+        color: $color-title;
+    }
+    & a {
+        text-decoration: none;
+        color: $color-title;
+    }
+
+    & li {
+        list-style-type: none;
+    }
+
+    height: 100vh;
+}
+
+.main-wrapper {
+    white-space: pre-line; //permet les retours à la ligne
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.section-home,.section-hero, .section-wip {
+        margin: 0 auto;
+        &.first-block {
+            margin-top: 3rem;
+        }
+    }
+
+    .section-parcours {
+        margin-bottom:3rem;
+    }

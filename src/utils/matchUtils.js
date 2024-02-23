@@ -35,13 +35,14 @@ export function generateMatches(teams, teamId, allMatches) {
             // Vérifier si le match entre l'équipe teamId et l'équipe adverse a déjà été ajouté dans allMatches
             const existingMatch = allMatches.some((match) => {
                 return (
-                    (match[0] === teamId && match[1] === teams[i].id) ||
-                    (match[0] === teams[i].id && match[1] === teamId)
+                    (match[1] === teamId && match[2] === teams[i].id) ||
+                    (match[1] === teams[i].id && match[2] === teamId)
                 );
             });
             //Si aucun match n'existe entre les deux équipes, nous ajoutons ce match à allMatches
             if (!existingMatch) {
                 allMatches.push([
+                    1,
                     teamId,
                     teams[i].id,
                     getRandomArbitrary(),
@@ -53,3 +54,18 @@ export function generateMatches(teams, teamId, allMatches) {
 }
 
 
+
+export function playGame(step, team1, team2) {
+    if (step && team1 && team2) {
+        const game = [step, team1.id, team2.id, getRandomArbitrary(), getRandomArbitrary()]
+        console.log(game);
+        return game
+    }
+}
+
+export function gotoBarrages(teams) {
+    // Redirection vers la page des barrages si le nombre d'équipes en play-off est égal à 12
+    const teamsPlayOff = teams.filter((team) => team.playoff !== null);
+    console.log(teamsPlayOff);
+    return teamsPlayOff.length === 12 ? false : true
+}

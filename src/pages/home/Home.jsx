@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import "./home.css";
 import {
     clearTeamsPlayoff,
     updateTeamHat,
-    resetTeams,
+    initState,
 } from "../../redux/teamSlice";
 import { allTeams } from "../../redux/teamSlice";
 import { useEffect, useState } from "react";
@@ -16,7 +15,7 @@ const Home = () => {
     const teams = useSelector(allTeams);
 
     const handleResetTeams = () => {
-        dispatch(resetTeams());
+        dispatch(initState());
     };
 
     const teamsPlayOff = teams.filter((team) => team.playoff !== null);
@@ -51,8 +50,8 @@ const Home = () => {
     };
 
     useEffect(() => {
-        handleResetTeams()
-    },[])
+        handleResetTeams();
+    }, []);
     return (
         <div>
             <div>

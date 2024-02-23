@@ -4,22 +4,21 @@ import { allTeams } from "../../redux/teamSlice";
 import { useEffect } from "react";
 import Group from "../../components/group/Group";
 import { Link, useNavigate } from "react-router-dom";
+import { gotoBarrages } from "../../utils/matchUtils";
 
 const PageGroups = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const teams = useSelector(allTeams);
 
-    const teamsPlayOff = teams.filter((team) => team.playoff !== null);
-    const navigate = useNavigate();
-
     useEffect(() => {
-        // Redirection vers la page des barrages si le nombre d'équipes en play-off est égal à 12
-        if (teamsPlayOff.length === 12) {
+        const shouldGoToBarrages = gotoBarrages(teams);
+        if (!shouldGoToBarrages) {
             navigate("/barrages");
         }
-    }, [navigate, teamsPlayOff]);
-
+    }, [navigate, teams]);
+    
     const handleGroup = () => {
         // Index de l'équipe dans chaque hat
         let teamIndex = 0;
@@ -39,8 +38,7 @@ const PageGroups = () => {
                 teamIndex = (teamIndex + 1) % 6;
                 order++;
             });
-            console.log(newTeams)
-            
+            console.log(newTeams);
             dispatch(updateTeamGroupAndOrder({ newTeams}));
     };
 

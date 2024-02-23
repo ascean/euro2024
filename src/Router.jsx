@@ -4,8 +4,9 @@ import PageGroups from "./pages/pageGroups/PageGroups";
 import PageMatchs from "./pages/pageMatchs/PageMatchs";
 import Header from "./components/header/Header";
 import Barrages from "./pages/barrages/Barrages";
-import PageClassement from "./pages/classement/PageClassement";
-import PageEliminatoire from "./pages/eliminatoire/PageEliminatoire";
+import PageResult from "./pages/result/PageResult";
+import PageTournoi from "./pages/tournoi/PageTournoi";
+import PageQualifications from "./pages/qualifications/PageQualifications";
 
 const Router = () => {
     return (
@@ -16,8 +17,12 @@ const Router = () => {
                 <Route path="/barrages" element={<Barrages />} />
                 <Route path="/groupes" element={<PageGroups />} />
                 <Route path="/matchs" element={<PageMatchs />} />
-                <Route path="/classement" element={<PageClassement />} />
-                <Route path="/eliminatoire" element={<PageEliminatoire />} />
+                <Route path="/result" element={<PageResult />} />
+                <Route
+                    path="/qualifications"
+                    element={<PageQualifications />}
+                />
+                <Route path="/tournoi" element={<PageTournoi />} />
             </Routes>
         </BrowserRouter>
     );
