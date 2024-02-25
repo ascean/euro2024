@@ -53,19 +53,21 @@ export function generateMatches(teams, teamId, allMatches) {
     }
 }
 
-
-
 export function playGame(step, team1, team2) {
     if (step && team1 && team2) {
-        const game = [step, team1.id, team2.id, getRandomArbitrary(), getRandomArbitrary()]
-        console.log(game);
-        return game
+        let score1 = 0;
+        let score2 = 0;
+        while (score1 === score2) {
+            score1 = getRandomArbitrary();
+            score2 = getRandomArbitrary();
+        }
+        const game = [step, team1.id, team2.id, score1, score2];
+        return game;
     }
 }
 
 export function gotoBarrages(teams) {
     // Redirection vers la page des barrages si le nombre d'équipes en play-off est égal à 12
     const teamsPlayOff = teams.filter((team) => team.playoff !== null);
-    console.log(teamsPlayOff);
-    return teamsPlayOff.length === 12 ? false : true
+    return teamsPlayOff.length === 12 ? false : true;
 }

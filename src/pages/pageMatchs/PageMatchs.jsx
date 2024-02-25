@@ -32,7 +32,6 @@ const PageMatchs = () => {
         const allMatches = groups.flatMap(
             (group) => updatedGroupMatches[group]
         );
-        console.log(allMatches);
         dispatch(updateScores(allMatches));
         setGroupMatches(updatedGroupMatches);
     }, []);

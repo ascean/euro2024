@@ -37,10 +37,6 @@ const PageQualifications = () => {
 
             return 0; //
         });
-        console.log(topTwo);
-        console.log(topThird);
-        // dispatch(updateRound16(orderedTeams));
-        console.log(orderedTeams);
         setSelectedTeams(orderedTeams);
     }, []);
 

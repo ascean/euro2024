@@ -16,8 +16,6 @@ const PageResult = () => {
         setTopTwoTeamsPerGroup(topTwo);
         setThirdPlaceTeams(topThird);
         const qualifiedTeams = [...topTwo, ...topThird];
-        console.log(topThird);
-        console.log(topTwo);
         const orderedTeams = qualifiedTeams.sort((a, b) => {
             // Comparaison des groupes
             if (a.group < b.group) return -1;
@@ -30,7 +28,6 @@ const PageResult = () => {
             return 0; //
         });
         dispatch(updateRound16(orderedTeams));
-        console.log(orderedTeams);
         setSelectedTeams(orderedTeams);
     }, []);
 

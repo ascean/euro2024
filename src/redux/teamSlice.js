@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getDatas } from "../services/servicesAPI";
+import { produce } from "immer";
 
 // Fonction utilitaire pour générer les valeurs par défaut d'une équipe
 const getDefaultTeamValues = () => ({
@@ -14,85 +15,14 @@ const getDefaultTeamValues = () => ({
     nbGoalsMinus: 0,
     diffGoals: 0,
     matchsList: [],
-    matchs: [],
     round16: false,
     round8: 0,
-    round4: false,
+    round4: 0,
     round2: false,
     round1: false,
+    order8: 0,
+    order4:0
 });
-
-// Fonction utilitaire pour mettre à jour les scores d'une équipe
-// function updateTeamScores1(team, match, resultat) {
-// if (!team.matchs.includes(match[1])) {
-//     team.matchs.push(match[1]);
-//     team.nbMatchs += 1;
-//     team.nbGoalsPlus += match[2];
-//     team.nbGoalsMinus += match[3];
-//     team.diffGoals += match[2] - match[3];
-
-//     if (resultat === "nul") {
-//         team.nbNuls += 1;
-//         team.nbPts += 1;
-//     } else if (resultat === "team1") {
-//         team.nbWin += 1;
-//         team.nbPts += 3;
-//     } else if (resultat === "team2") {
-//         team.nbLost += 1;
-//     }
-// }
-// const teamToSearch = !team.matchsList.find(objet => objet.id === match[1])
-// if (!teamToSearch) {
-//     team.nbMatchs += 1;
-//     team.nbGoalsPlus += match[2];
-//     team.nbGoalsMinus += match[3];
-//     team.diffGoals += match[2] - match[3];
-
-//     if (resultat === "nul") {
-//         team.nbNuls += 1;
-//         team.nbPts += 1;
-//     } else if (resultat === "team1") {
-//         team.nbWin += 1;
-//         team.nbPts += 3;
-//     } else if (resultat === "team2") {
-//         team.nbLost += 1;
-//     }
-//     const newMatch = {
-//         step : 1,
-//         self : match[0],
-//         adverse : match[1],
-//         nbGoalsIn : match[2],
-//         nbGoalsOut : match[3]
-//     }
-
-// }
-// }
-
-// Fonction utilitaire pour mettre à jour les scores d'une équipe
-// function updateTeamScores2(team, match, resultat) {
-//     if (!team.matchs.includes(match[0])) {
-//         team.matchs.push(match[0]);
-//         team.nbMatchs += 1;
-//         team.nbGoalsPlus += match[3];
-//         team.nbGoalsMinus += match[2];
-//         team.diffGoals += match[3] - match[2];
-
-//         if (resultat === "nul") {
-//             team.nbNuls += 1;
-//             team.nbPts += 1;
-//         } else if (resultat === "team2") {
-//             team.nbWin += 1;
-//             team.nbPts += 3;
-//         } else if (resultat === "team1") {
-//             team.nbLost += 1;
-//         }
-//     }
-// }
-// // Fonction utilitaire pour mettre à jour les scores d'une équipe
-// function updateTeamScores(team, match) {
-//     console.log(match);
-//     team.round8 = match;
-// }
 
 function updateTeamScore(team, match) {
     // Vérifier si l'équipe correspondante existe dans l'état
@@ -201,36 +131,49 @@ export const teamSlice = createSlice({
                 updateTeamScore(team2, matchTeam2);
             });
         },
+
+        
+        
         updateRound16: (state, action) => {
-            const selectedTeams = action.payload;
-            console.log(selectedTeams);
-            selectedTeams.forEach((team) => {
-                const teamId = team.id;
-                const selectedTeam = state.find((team) => team.id === teamId);
-                selectedTeam.round16 = true;
+            const selectedTeamIds = action.payload.map(team => team.id);
+            return state.map((team) => {
+                if (selectedTeamIds.includes(team.id)) {
+                    return {
+                        ...team,
+                        round16: true
+                    };
+                }
+                return team; // Retourner l'équipe inchangée si elle n'a pas été sélectionnée
             });
         },
+        
         updateRound8: (state, action) => {
-            const { teamId, order } = action.payload;
+            const { teamId, numMatch, order } = action.payload;
             return state.map((team) => {
                 if (team.id === teamId) {
                     return {
                         ...team,
-                        round8: order,
+                        round8: numMatch,
+                        order8:order
                     };
                 }
                 return team;
             });
         },
         updateRound4: (state, action) => {
-            const { selectedTeams, order } = action.payload;
-            console.log(selectedTeams);
-            selectedTeams.forEach((team) => {
-                const teamId = team.id;
-                const selectedTeam = state.find((team) => team.id === teamId);
-                selectedTeam.round4 = order;
+            const { teamId, numMatch, order } = action.payload;
+            return state.map((team) => {
+                if (team.id === teamId) {
+                    return {
+                        ...team,
+                        round4: numMatch,
+                        order4:order
+                    };
+                }
+                return team;
             });
         },
+        
         updateRound2: (state, action) => {
             const selectedTeams = action.payload;
             selectedTeams.forEach((team) => {

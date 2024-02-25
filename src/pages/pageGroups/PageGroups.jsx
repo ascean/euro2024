@@ -38,7 +38,6 @@ const PageGroups = () => {
                 teamIndex = (teamIndex + 1) % 6;
                 order++;
             });
-            console.log(newTeams);
             dispatch(updateTeamGroupAndOrder({ newTeams}));
     };
 
