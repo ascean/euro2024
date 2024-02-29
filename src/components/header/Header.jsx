@@ -97,13 +97,13 @@ const Header = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink
-                                to="/tournoi"
+                                to="/tournoi8"
                                 className={
-                                    activeMenu === "/tournoi"
+                                    activeMenu === "/tournoi8"
                                         ? "nav-link active"
                                         : "nav-link"
                                 }
-                                onClick={() => setActiveMenu("/tournoi")}
+                                onClick={() => setActiveMenu("/tournoi8")}
                             >
                                 Tournoi
                             </NavLink>

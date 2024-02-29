@@ -2,8 +2,10 @@ const Round4 = ({ teams }) => {
     const selectedTeams = teams
         .filter((team) => team.round4 !== 0)
         .sort((a, b) => a.order4 - b.order4);
+    console.log(selectedTeams);
     return (
         <ul>
+            <p>Quart de finale</p>
             {selectedTeams &&
                 selectedTeams
                     .reduce((pairs, team, index) => {
@@ -26,17 +28,13 @@ const Round4 = ({ teams }) => {
                                     </p>
                                     <p>Order4: {pair[0].order4}</p>
                                     <p>Round4: {pair[0].round4}</p>
+                                    {/* recup du 5ème match de MatchList = quart de finale */}
                                     {pair[0].matchList &&
-                                        pair[0].matchList.length > 0 &&
-                                        pair[0].matchList[
-                                            pair[0].matchList.length - 1
-                                        ][0] === 8 && (
+                                        pair[0].matchList.length >=5 &&
+                                        pair[0].matchList[4][0] === 4 && (
                                             <p>
                                                 {
-                                                    pair[0].matchList.find(
-                                                        (array) =>
-                                                            array[0] === 8
-                                                    )[3]
+                                                    pair[0].matchList[4][3]
                                                 }
                                             </p>
                                         )}
@@ -48,17 +46,13 @@ const Round4 = ({ teams }) => {
                                     </p>
                                     <p>Order4: {pair[1].order4}</p>
                                     <p>Round4: {pair[1].round4}</p>
+                                    {/* recup du 5ème match de MatchList = quart de finale */}
                                     {pair[1].matchList &&
-                                        pair[1].matchList.length > 0 &&
-                                        pair[1].matchList[
-                                            pair[1].matchList.length - 1
-                                        ][0] === 8 && (
+                                        pair[1].matchList.length >=5 &&
+                                        pair[1].matchList[4][0] === 4 && (
                                             <p>
                                                 {
-                                                    pair[1].matchList.find(
-                                                        (array) =>
-                                                            array[0] === 8
-                                                    )[3]
+                                                pair[1].matchList[4][3]
                                                 }
                                             </p>
                                         )}

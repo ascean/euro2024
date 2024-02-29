@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getDatas } from "../services/servicesAPI";
-import { produce } from "immer";
 
 // Fonction utilitaire pour générer les valeurs par défaut d'une équipe
 const getDefaultTeamValues = () => ({
@@ -14,12 +13,11 @@ const getDefaultTeamValues = () => ({
     nbGoalsPlus: 0,
     nbGoalsMinus: 0,
     diffGoals: 0,
-    matchsList: [],
     round16: false,
     round8: 0,
     round4: 0,
-    round2: false,
-    round1: false,
+    round2: 0,
+    round1: 0,
     order8: 0,
     order4:0
 });
@@ -162,6 +160,7 @@ export const teamSlice = createSlice({
         },
         updateRound4: (state, action) => {
             const { teamId, numMatch, order } = action.payload;
+            console.log("updateRound4");
             return state.map((team) => {
                 if (team.id === teamId) {
                     return {
@@ -173,23 +172,21 @@ export const teamSlice = createSlice({
                 return team;
             });
         },
-        
         updateRound2: (state, action) => {
-            const selectedTeams = action.payload;
-            selectedTeams.forEach((team) => {
-                const teamId = team.id;
-                const selectedTeam = state.find((team) => team.id === teamId);
-                selectedTeam.round2 = true;
+            const { teamId, numMatch, order } = action.payload;
+            console.log("updateRound2");
+            return state.map((team) => {
+                if (team.id === teamId) {
+                    return {
+                        ...team,
+                        round2: numMatch,
+                        order2:order
+                    };
+                }
+                return team;
             });
         },
-        updateRound1: (state, action) => {
-            const selectedTeams = action.payload;
-            selectedTeams.forEach((team) => {
-                const teamId = team.id;
-                const selectedTeam = state.find((team) => team.id === teamId);
-                selectedTeam.round1 = true;
-            });
-        },
+        
     },
 });
 

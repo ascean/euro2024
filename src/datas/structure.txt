@@ -16,7 +16,7 @@ nbLost              int         nombre de matchs perdus
 nbGoalsPlus         int         nombre de buts marqués (« buts “pour” »)
 nbGoalsMinus        int         nombre de buts encaissés (« buts “contre” »)
 diffGoals            int         différence de buts (nbGoalsPlus-nbGoalsMinus)
-matchsList          array of object
+matchList          array of object
     {
         step        int         étape de la compétition 
         self        int         id équipe

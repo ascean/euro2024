@@ -11,44 +11,46 @@ import { useNavigate } from "react-router";
 import Round8 from "../../components/rounds/Round8";
 import Round4 from "../../components/rounds/Round4";
 
-const PageTournoi = () => {
-    const [play4, setPlay4] = useState(false);
+const PageTournoiRound8 = () => {
+    // const [play4, setPlay4] = useState(false);
     const [play8, setPlay8] = useState(false);
     const navigate = useNavigate();
     const [isNavigated, setIsNavigated] = useState(false);
     const dispatch = useDispatch();
     const teams = useSelector(allTeams);
     const [teams8, setTeams8] = useState([]);
-    const [teams4, setTeams4] = useState([]);
+    // const [teams4, setTeams4] = useState([]);
 
     /**
-     * Sélection des équipes pour la 8ème de finale
+     * Sélection des équipes pour la 8ème de finale : 
+     * on récupère toutes les équipes sélectionnées au 16ème
+     * on les classe par groupe : chaque groupe dans un array
      * @returns 
      */
     const selectEightTeams = () => {
         const teamsA = teams
-            .filter((team) => (team.round16 !== false) & (team.group === "A"))
+            .filter((team) => team.round16  & (team.group === "A"))
             .sort((a, b) => b.nbPts - a.nbPts);
         const teamsB = teams
-            .filter((team) => (team.round16 !== false) & (team.group === "B"))
+            .filter((team) => team.round16 & (team.group === "B"))
             .sort((a, b) => b.nbPts - a.nbPts);
         const teamsC = teams
-            .filter((team) => (team.round16 !== false) & (team.group === "C"))
+            .filter((team) => team.round16 & (team.group === "C"))
             .sort((a, b) => b.nbPts - a.nbPts);
         const teamsD = teams
-            .filter((team) => (team.round16 !== false) & (team.group === "D"))
+            .filter((team) => team.round16 & (team.group === "D"))
             .sort((a, b) => b.nbPts - a.nbPts);
         const teamsE = teams
-            .filter((team) => (team.round16 !== false) & (team.group === "E"))
+            .filter((team) => team.round16 & (team.group === "E"))
             .sort((a, b) => b.nbPts - a.nbPts);
         const teamsF = teams
-            .filter((team) => (team.round16 !== false) & (team.group === "F"))
+            .filter((team) => team.round16 & (team.group === "F"))
             .sort((a, b) => b.nbPts - a.nbPts);
         return { teamsA, teamsB, teamsC, teamsD, teamsE, teamsF };
     };
 
     /**
-     * Génération des matchs de 8ème de finale
+     * Génération des matchs de 8ème de finale selon les règles indiquées
      * @param {*} param0 
      * @returns 
      */
@@ -338,7 +340,7 @@ const PageTournoi = () => {
             .filter((team) => team.round4 !== 0)
             .sort((a, b) => a.round4 - b.round4);
         console.log(quarterTeams);
-        setTeams4(quarterTeams);
+        // setTeams4(quarterTeams);
     };
 
 
@@ -347,7 +349,8 @@ const PageTournoi = () => {
      * Joue les quarts de finale
      */
     const play_quarter = () => {
-        setPlay4(true);
+        navigate("/tournoi4")
+        // setPlay4(true);
         selectQuarterTeams();
     };
 
@@ -366,8 +369,12 @@ const PageTournoi = () => {
      * Au chargement : 8ème de finale
      */
     useEffect(() => {
+        //création d'un array contenant un array avec les équipes de chaque groupe
         const newTeams8 = selectEightTeams();
+
+        //génération des matchs pour les équipes sélectionnées
         const allMatches = generateEightMatches(newTeams8);
+console.log(allMatches);
         allMatches && dispatch(updateScores(allMatches));
         setPlay8(true)
     }, []);
@@ -380,7 +387,6 @@ const PageTournoi = () => {
             .filter((team) => team.round8 !== 0)
             .sort((a, b) => a.order - b.order);
         setTeams8(newteams8);
-        play_quarter()
     }, [play8]);
 
     
@@ -388,136 +394,11 @@ const PageTournoi = () => {
     return (
         <div>
             <button onClick={() => play_quarter()}>Quart de finale</button>
-            {play4 && <p>toto</p>}
             <div className="tournoi-container">
                 {teams.length > 0 && <Round8 teams={teams} />}
-                {teams.length > 0 && <Round4 teams={teams} />}
-                {/* <ul>
-                    {teams8 &&
-                        teams8
-                            .reduce((pairs, team, index) => {
-                                if (index % 2 === 0) {
-                                    pairs.push(teams8.slice(index, index + 2));
-                                }
-                                return pairs;
-                            }, [])
-                            .map((pair, index) => (
-                                <li key={"pair_" + index}>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div>
-                                            <p>
-                                                {pair[0].name}({pair[0].group})
-                                            </p>
-                                            {pair[0].matchList &&
-                                                pair[0].matchList.length > 0 &&
-                                                pair[0].matchList[
-                                                    pair[0].matchList.length - 1
-                                                ][0] === 8 && (
-                                                    <p>
-                                                        {
-                                                            pair[0].matchList.find(
-                                                                (array) =>
-                                                                    array[0] ===
-                                                                    8
-                                                            )[3]
-                                                        }
-                                                    </p>
-                                                )}
-                                        </div>
-                                        {<div>⚽ </div>}
-                                        <div>
-                                            <p>
-                                                {pair[1].name}({pair[1].group})
-                                            </p>
-                                            {pair[1].matchList &&
-                                                pair[1].matchList.length > 0 &&
-                                                pair[1].matchList[
-                                                    pair[1].matchList.length - 1
-                                                ][0] === 8 && (
-                                                    <p>
-                                                        {
-                                                            pair[1].matchList.find(
-                                                                (array) =>
-                                                                    array[0] ===
-                                                                    8
-                                                            )[3]
-                                                        }
-                                                    </p>
-                                                )}
-                                        </div>
-                                    </div>
-                                </li>
-                            ))}
-                </ul> */}
-                {/* <ul>
-                    {teams4 &&
-                        teams4
-                            .reduce((pairs, team, index) => {
-                                if (index % 2 === 0) {
-                                    pairs.push(teams4.slice(index, index + 2));
-                                }
-                                return pairs;
-                            }, [])
-                            .map((pair, index) => (
-                                <li key={"pair_" + index}>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <div>
-                                            <p>
-                                                {pair[0].name}({pair[0].group})
-                                            </p>
-                                            {pair[0].matchList &&
-                                                pair[0].matchList.length > 0 &&
-                                                pair[0].matchList[
-                                                    pair[0].matchList.length - 1
-                                                ][0] === 8 && (
-                                                    <p>
-                                                        {
-                                                            pair[0].matchList.find(
-                                                                (array) =>
-                                                                    array[0] ===
-                                                                    8
-                                                            )[3]
-                                                        }
-                                                    </p>
-                                                )}
-                                        </div>
-                                        {<div>⚽ </div>}
-                                        <div>
-                                            <p>
-                                                {pair[1].name}({pair[1].group})
-                                            </p>
-                                            {pair[1].matchList &&
-                                                pair[1].matchList.length > 0 &&
-                                                pair[1].matchList[
-                                                    pair[1].matchList.length - 1
-                                                ][0] === 8 && (
-                                                    <p>
-                                                        {
-                                                            pair[1].matchList.find(
-                                                                (array) =>
-                                                                    array[0] ===
-                                                                    8
-                                                            )[3]
-                                                        }
-                                                    </p>
-                                                )}
-                                        </div>
-                                    </div>
-                                </li>
-                            ))}
-                </ul> */}
+                {/* {teams.length > 0 && <Round4 teams={teams} />} */}
             </div>
         </div>
     );
 };
-export default PageTournoi;
+export default PageTournoiRound8;

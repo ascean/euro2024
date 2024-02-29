@@ -5,8 +5,10 @@ import PageMatchs from "./pages/pageMatchs/PageMatchs";
 import Header from "./components/header/Header";
 import Barrages from "./pages/barrages/Barrages";
 import PageResult from "./pages/result/PageResult";
-import PageTournoi from "./pages/tournoi/PageTournoi";
 import PageQualifications from "./pages/qualifications/PageQualifications";
+import PageTournoiRound8 from "./pages/tournoi/PageTournoiRound8";
+import PageTournoiRound4 from "./pages/tournoi/PageTournoiRound4";
+import PageTournoiRound2 from "./pages/tournoi/PageTournoiRound2";
 
 const Router = () => {
     return (
@@ -22,7 +24,9 @@ const Router = () => {
                     path="/qualifications"
                     element={<PageQualifications />}
                 />
-                <Route path="/tournoi" element={<PageTournoi />} />
+                <Route path="/tournoi8" element={<PageTournoiRound8 />} />
+                <Route path="/tournoi4" element={<PageTournoiRound4 />} />
+                <Route path="/tournoi2" element={<PageTournoiRound2 />} />
             </Routes>
         </BrowserRouter>
     );
