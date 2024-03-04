@@ -2,9 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { initState, updateTeamHat } from "../../redux/teamSlice";
 import { allTeams } from "../../redux/teamSlice";
 import { useEffect, useState } from "react";
-import Team from "../../components/team/Team";
 import Hat from "../../components/hat/Hat";
-import { Link } from "react-router-dom";
 
 const Barrages = () => {
     const dispatch = useDispatch();
@@ -43,13 +41,13 @@ const Barrages = () => {
     };
 
     useEffect(() => {
+        handleResetTeams();
         handlePlayOff();
     }, []);
 
     return (
         <div>
             <div>
-                <p>Liste des équipes sélectionnées</p>
                 <ul>
                     {/* Générer une liste pour chaque chapeau */}
                     {showPlayoff &&

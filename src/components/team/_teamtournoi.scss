@@ -1,8 +1,14 @@
-.team {
+.team-tournoi {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     .team-infos {
         display: flex;
+        justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap:10px;
         img {
             width: 30px;
             height: 30px;
@@ -13,8 +19,12 @@
         h3 {
             font-size: 1rem !important;
         }
-        .team-name {
+        .team-name{
             margin: 0;
         }
     }
+        .team-points {
+            font-size: 1rem;
+            font-weight: bold;
+        }
 }

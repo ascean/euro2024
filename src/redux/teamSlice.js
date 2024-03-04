@@ -19,7 +19,9 @@ const getDefaultTeamValues = () => ({
     round2: 0,
     round1: 0,
     order8: 0,
-    order4:0
+    order4:0,
+    order2:0,
+    order1:0,
 });
 
 function updateTeamScore(team, match) {
@@ -112,8 +114,7 @@ export const teamSlice = createSlice({
         },
         updateScores(state, action) {
             const newMatchLists = action.payload;
-            console.log(newMatchLists);
-            newMatchLists.forEach((match) => {
+            newMatchLists && newMatchLists.forEach((match) => {
                 const matchTeam1 = match;
                 const team1 = state.find((team) => team.id === matchTeam1[1]);
                 updateTeamScore(team1, matchTeam1);
@@ -146,12 +147,12 @@ export const teamSlice = createSlice({
         },
         
         updateRound8: (state, action) => {
-            const { teamId, numMatch, order } = action.payload;
+            const { teamId, round8, order } = action.payload;
             return state.map((team) => {
                 if (team.id === teamId) {
                     return {
                         ...team,
-                        round8: numMatch,
+                        round8: round8,
                         order8:order
                     };
                 }
@@ -159,13 +160,12 @@ export const teamSlice = createSlice({
             });
         },
         updateRound4: (state, action) => {
-            const { teamId, numMatch, order } = action.payload;
-            console.log("updateRound4");
+            const { teamId, round4, order } = action.payload;
             return state.map((team) => {
                 if (team.id === teamId) {
                     return {
                         ...team,
-                        round4: numMatch,
+                        round4: round4,
                         order4:order
                     };
                 }
@@ -173,14 +173,26 @@ export const teamSlice = createSlice({
             });
         },
         updateRound2: (state, action) => {
-            const { teamId, numMatch, order } = action.payload;
-            console.log("updateRound2");
+            const { teamId, round2, order } = action.payload;
             return state.map((team) => {
                 if (team.id === teamId) {
                     return {
                         ...team,
-                        round2: numMatch,
+                        round2: round2,
                         order2:order
+                    };
+                }
+                return team;
+            });
+        },
+        updateRound1: (state, action) => {
+            const { teamId, round1, order } = action.payload;
+            return state.map((team) => {
+                if (team.id === teamId) {
+                    return {
+                        ...team,
+                        round1: round1,
+                        order1:order
                     };
                 }
                 return team;

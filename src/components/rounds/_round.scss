@@ -1,0 +1,33 @@
+.tournoi-column {
+    display: flex;
+    position: relative;
+    border-right: 1px dotted grey;
+    width: 25%;
+    &:last-child {
+        border-right: none;
+
+    }
+    h2 {
+        text-align: center;
+        position:absolute;
+        top: 0;
+    }
+    ul.round {
+        margin: 50px auto;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .match-container {
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 5px 5px grey;
+            padding: 10px 20px;
+            background-color: white;
+            margin: 10px;
+            width: 250px;
+            gap: 5px;
+        }
+    }
+}

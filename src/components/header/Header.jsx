@@ -10,13 +10,16 @@ const Header = () => {
     }, [location.pathname]);
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
-            <div className="container-fluid">
+        <nav className="navbar navbar-expand-lg ">
+            <div className="container-fluid ">
+                <a className="navbar-brand " href="#">
+                    <img src="/src/assets/logo.jpg" alt="logo" />
+                </a>
                 <div
-                    className="collapse navbar-collapse"
+                    className="collapse navbar-collapse justify-content-center"
                     id="navbarSupportedContent"
                 >
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul className="navbar-nav mb-2 mb-lg-0">
                         <li className="nav-item">
                             <NavLink
                                 to="/"
@@ -32,19 +35,6 @@ const Header = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink
-                                to="/barrages"
-                                className={
-                                    activeMenu === "/barrages"
-                                        ? "nav-link active"
-                                        : "nav-link"
-                                }
-                                onClick={() => setActiveMenu("/barrages")}
-                            >
-                                Barrages
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink
                                 to="/groupes"
                                 className={
                                     activeMenu === "/groupes"
@@ -53,7 +43,7 @@ const Header = () => {
                                 }
                                 onClick={() => setActiveMenu("/groupes")}
                             >
-                                Phase de groupes
+                                Groupes
                             </NavLink>
                         </li>
                         <li className="nav-item">
@@ -66,7 +56,7 @@ const Header = () => {
                                 }
                                 onClick={() => setActiveMenu("/matchs")}
                             >
-                                Matchs de la phase de groupe
+                                Matchs
                             </NavLink>
                         </li>
                         <li className="nav-item">
@@ -79,7 +69,7 @@ const Header = () => {
                                 }
                                 onClick={() => setActiveMenu("/qualifications")}
                             >
-                                Phase de qualifications
+                                Qualifications
                             </NavLink>
                         </li>
                         <li className="nav-item">
@@ -97,15 +87,28 @@ const Header = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink
-                                to="/tournoi8"
+                                to="/tournoi"
                                 className={
-                                    activeMenu === "/tournoi8"
+                                    activeMenu === "/tournoi"
                                         ? "nav-link active"
                                         : "nav-link"
                                 }
-                                onClick={() => setActiveMenu("/tournoi8")}
+                                onClick={() => setActiveMenu("/tournoi")}
                             >
                                 Tournoi
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                to="/recap"
+                                className={
+                                    activeMenu === "/recap"
+                                        ? "nav-link active"
+                                        : "nav-link"
+                                }
+                                onClick={() => setActiveMenu("/recap")}
+                            >
+                                Recap
                             </NavLink>
                         </li>
                     </ul>

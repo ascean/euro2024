@@ -3,19 +3,18 @@ import { allTeams, updateScores } from "../../redux/teamSlice";
 import { useNavigate } from "react-router-dom";
 import Match from "../../components/match/Match";
 import { useEffect, useState } from "react";
-import { generateGroupMatches, gotoBarrages } from "../../utils/matchUtils";
+import { generateGroupMatches, gotoHome } from "../../utils/matchUtils";
 
 const PageMatchs = () => {
     const dispatch = useDispatch();
     const teams = useSelector(allTeams);
     const navigate = useNavigate();
     const [groupMatches, setGroupMatches] = useState({});
-    const [playGames, setPlayGames] = useState(true);
 
     useEffect(() => {
-        const shouldGoToBarrages = gotoBarrages(teams);
-        if (!shouldGoToBarrages) {
-            navigate("/barrages");
+        const shouldGoToHome = gotoHome(teams);
+        if (!shouldGoToHome) {
+            navigate("/");
         }
     }, [navigate, teams]);
 
@@ -37,13 +36,13 @@ const PageMatchs = () => {
     }, []);
 
     return (
-        <div>
-            <p>Liste des matchs</p>
-            <ul>
-                <div className="all-groups">
-                    {Object.keys(groupMatches).map((group) => (
-                        <div key={group} className="group-matches">
-                            <h2>Groupe {group}</h2>
+        <div className="title">
+            <h1>Matchs de la phase de groupe</h1>
+            <ul className="match-groups-container">
+                {Object.keys(groupMatches).map((group) => (
+                    <li key={group} className="match-groups-item">
+                        <h2>Groupe {group}</h2>
+                        <div className="match-group-container">
                             {groupMatches[group].map((match, index) => (
                                 <Match
                                     key={index}
@@ -54,8 +53,8 @@ const PageMatchs = () => {
                                 />
                             ))}
                         </div>
-                    ))}
-                </div>
+                    </li>
+                ))}
             </ul>
         </div>
     );

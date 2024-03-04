@@ -64,22 +64,25 @@ const PageResult = () => {
     };
 
     return (
-        <div>
-            <h2>Qualifications</h2>
-            {["A", "B", "C", "D", "E", "F"].map((group) => (
-                <div key={"group" + group}>
-                    <h3>Groupe2 {group}</h3>
-                    <ul className="team-list">
-                        {selectedTeams
-                            .filter((team) => team.group === group)
-                            .map((team) => (
-                                <li key={team.name}>
-                                    {team.name} ({team.nbPts} points)
-                                </li>
-                            ))}
-                    </ul>
-                </div>
-            ))}
+        <div className="qualif">
+            <h1 className="title">Equipes sélectionnées</h1>
+            <div className="qualif-infos">
+                {["A", "B", "C", "D", "E", "F"].map((group) => (
+                    <div key={"group" + group} className="qualif-container">
+                        <h2>Groupe {group}</h2>
+                        <ul className="qualif-teams">
+                            {selectedTeams
+                                .filter((team) => team.group === group)
+                                .map((team) => (
+                                    <li key={team.name} className="qualif-team">
+                                        <Team team={team} order={null} />(
+                                        {team.nbPts} points)
+                                    </li>
+                                ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

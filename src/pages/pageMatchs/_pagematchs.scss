@@ -1,4 +1,43 @@
-.all-groups {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+.match-groups-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 50px;
+    margin: 30px auto;
+}
+
+.match-groups-item {
+    box-shadow:5px 5px 5px grey;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    gap: 20px;
+    padding: 20px;
+}
+
+.match-group-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    .match {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: space-between;
+        align-items: center;
+        .team:first-child {
+            display: flex;
+            align-items: flex-start;
+            width: 33%;
+        }
+        .team:last-child .team-infos {
+            display: flex;
+            align-items: flex-end;
+            flex-direction: row-reverse;
+        }
+    }
 }

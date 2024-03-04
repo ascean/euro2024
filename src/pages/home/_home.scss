@@ -1,8 +1,10 @@
-.list {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 10px;
+.ballotage-title {
+    text-align: center;
 }
-.list ul li {
-    list-style: none;
+.qualif-infos.ballotage {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+
 }

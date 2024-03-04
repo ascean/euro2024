@@ -1,7 +1,30 @@
-.qualified {
-    color: green;
-}
-.not-qualified {
-    color: crimson;
-}
 
+.qualif-infos {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center ;
+    gap: 30px;
+
+}
+.qualif-container{
+    box-shadow: 5px 5px 5px grey;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    gap: 20px;
+    padding: 20px;
+}
+.qualif-teams {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.qualif-team {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+}

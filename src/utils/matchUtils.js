@@ -66,8 +66,8 @@ export function playGame(step, team1, team2) {
     }
 }
 
-export function gotoBarrages(teams) {
-    // Redirection vers la page des barrages si le nombre d'équipes en play-off est égal à 12
+export function gotoHome(teams) {
+    // Redirection vers la page Home si le nombre d'équipes en play-off est égal à 12
     const teamsPlayOff = teams.filter((team) => team.playoff !== null);
     return teamsPlayOff.length === 12 ? false : true;
 }

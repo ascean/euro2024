@@ -1,5 +1,3 @@
-// Group.jsx
-
 import { useSelector } from "react-redux";
 import Team from "../team/Team";
 import { allTeams } from "../../redux/teamSlice";
@@ -15,18 +13,19 @@ const Group = () => {
         }
         acc[team.group].push(team);
         return acc;
-    }, {});
+        }, {});
+    
     return (
         <>
             {Object.keys(groupedTeams).map((group) => (
-                <div key={group}>
+                <li key={group} className="qualif-container">
                     <h2>Groupe {group}</h2>
-                    <ul className="list">
+                    <ul className="qualif-teams group">
                         {groupedTeams[group].sort((a,b)=> a.order-b.order).map((team) => (
-                            <li key={team.id}> <Team team={team} order={null} /></li>
+                            <li key={team.id} className="qualif-team"> <Team team={team} order={null} /></li>
                         ))}
                     </ul>
-                </div>
+                </li>
             ))}
         </>
     );

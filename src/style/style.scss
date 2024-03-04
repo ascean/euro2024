@@ -7,12 +7,16 @@
 @import "../components/group/group.scss";
 @import "../components/hat/hat.scss";
 @import "../components/header/header.scss";
+@import "../components/footer/footer.scss";
 @import "../components/match/match.scss";
 @import "../components/team/team.scss";
-@import "../pages/barrages/barrages.scss";
+@import "../components/team/teamtournoi.scss";
+@import "../components/rounds/round.scss";
 @import "../pages/result/pageresult.scss";
 @import "../pages/tournoi/pagetournoi.scss";
 @import "../pages/home/home.scss";
 @import "../pages/pagegroups/pagegroups.scss";
 @import "../pages/pagematchs/pagematchs.scss";
 @import "../pages/qualifications/pagequalifications.scss";
+@import "../pages/recap/recap.scss";
+@import "../components/team/team-recap.scss";
