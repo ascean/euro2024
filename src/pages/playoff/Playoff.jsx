@@ -1,16 +1,34 @@
 import { useDispatch, useSelector } from "react-redux";
-import { initState, updateTeamHat } from "../../redux/teamSlice";
+import { initStateTeam, updateTeamHat } from "../../redux/teamSlice";
 import { allTeams } from "../../redux/teamSlice";
 import { useEffect, useState } from "react";
 import Hat from "../../components/hat/Hat";
+import { initStateStep, updateStep } from "../../redux/stepSlice";
+import { gotoHome } from "../../utils/matchUtils";
+import { useNavigate } from "react-router";
 
-const Barrages = () => {
+/**
+ * Page Playoff : affiche les 4 chapeaux. Chaque chapeau contient 6 équipes
+ * @returns
+ */
+const Playoff = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const teams = useSelector(allTeams);
     const [showPlayoff, setShowPlayoff] = useState(false);
+    const step = useSelector((state) => state.steps.step);
+
+    console.log(step);
+    useEffect(() => {
+        const shouldGoToHome = gotoHome(step, 2);
+        if (!shouldGoToHome) {
+            navigate("/");
+        }
+    }, [navigate, teams]);
 
     const handleResetTeams = () => {
-        dispatch(initState());
+        dispatch(initStateTeam());
+        dispatch(initStateStep());
     };
 
     // Obtenir les chapeaux uniques présents dans les équipes
@@ -38,6 +56,7 @@ const Barrages = () => {
         dispatch(updateTeamHat(selectedTeamIds));
         setShowPlayoff(true);
         teamsPlayOff = teams.filter((team) => team.playoff !== null);
+        if (step === 0) dispatch(updateStep(1));
     };
 
     useEffect(() => {
@@ -46,20 +65,22 @@ const Barrages = () => {
     }, []);
 
     return (
-        <div>
-            <div>
-                <ul>
+        <div className="wrapper">
+            <h1 className="title">Playoff</h1>
+            <ul className="wrapper-infos hat">
                     {/* Générer une liste pour chaque chapeau */}
                     {showPlayoff &&
                         uniqueHats.map((hat) => (
-                            <li key={"chapeau" + hat}>
+                            <li
+                                className="wrapper-container"
+                                key={"chapeau" + hat}
+                            >
                                 <Hat hat={hat} />
                             </li>
                         ))}
                 </ul>
-            </div>
         </div>
     );
 };
 
-export default Barrages;
+export default Playoff;

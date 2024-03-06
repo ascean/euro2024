@@ -15,14 +15,13 @@ const TeamRecap = ({ team, order }) => {
                     <h3 className="team-name">{team.name}</h3>
                 </div>
             </div>
-            <div className="score">{team.nbMatchs}</div>
             <div className="score">{team.nbWin}</div>
             <div className="score">{team.nbLost}</div>
             <div className="score">{team.nbNuls}</div>
             <div className="score">{team.nbGoalsPlus}</div>
             <div className="score">{team.nbGoalsMinus}</div>
             <div className="score">{team.diffGoals}</div>
-            <div className="score">{team.nbPts}</div>
+            <div className="score nbpts">{team.nbPts}</div>
         </div>
     );
 };

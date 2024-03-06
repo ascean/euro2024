@@ -2,13 +2,30 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { allTeams, updateRound16 } from "../../redux/teamSlice";
 import Team from "../../components/team/Team";
+import { updateStep } from "../../redux/stepSlice";
+import { gotoHome } from "../../utils/matchUtils";
+import { useNavigate } from "react-router";
 
-const PageResult = () => {
+/**
+ * Affiche les équipes qualifiées pour le tournoi : 2 meilleures de chaque groupe + 4 meilleures 3ème
+ * @returns
+ */
+const PageSelection = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const teams = useSelector(allTeams);
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [topTwoTeamsPerGroup, setTopTwoTeamsPerGroup] = useState([]);
     const [thirdPlaceTeams, setThirdPlaceTeams] = useState([]);
+
+    const step = useSelector((state) => state.steps.step);
+    console.log(step);
+    useEffect(() => {
+        const shouldGoToHome = gotoHome(step, 5);
+        if (!shouldGoToHome) {
+            navigate("/");
+        }
+    }, [navigate, teams]);
 
     useEffect(() => {
         const topTwo = getTopTwoTeamsPerGroup(teams);
@@ -29,6 +46,7 @@ const PageResult = () => {
         });
         dispatch(updateRound16(orderedTeams));
         setSelectedTeams(orderedTeams);
+        if (step === 3) dispatch(updateStep(4));
     }, []);
 
     const getTopTwoTeamsPerGroup = (teams) => {
@@ -64,17 +82,20 @@ const PageResult = () => {
     };
 
     return (
-        <div className="qualif">
-            <h1 className="title">Equipes sélectionnées</h1>
-            <div className="qualif-infos">
+        <div className="wrapper selections">
+            <h1 className="title">Sélections</h1>
+            <div className="wrapper-infos">
                 {["A", "B", "C", "D", "E", "F"].map((group) => (
-                    <div key={"group" + group} className="qualif-container">
+                    <div key={"group" + group} className="wrapper-container">
                         <h2>Groupe {group}</h2>
-                        <ul className="qualif-teams">
+                        <ul className="wrapper-teams">
                             {selectedTeams
                                 .filter((team) => team.group === group)
                                 .map((team) => (
-                                    <li key={team.name} className="qualif-team">
+                                    <li
+                                        key={team.name}
+                                        className="wrapper-team"
+                                    >
                                         <Team team={team} order={null} />(
                                         {team.nbPts} points)
                                     </li>
@@ -87,4 +108,4 @@ const PageResult = () => {
     );
 };
 
-export default PageResult;
+export default PageSelection;

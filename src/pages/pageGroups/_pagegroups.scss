@@ -1,8 +1,6 @@
-.groups-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 100%;
-    gap: 50px;
-    margin: 50px auto;
+@media screen and (max-width: 480px) {
+    .wrapper.groups .wrapper-infos .wrapper-container {
+        width:100%;
+        padding: 20px;
+    }
 }

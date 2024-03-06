@@ -1,29 +1,41 @@
-import  { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { gotoHome } from "../../utils/matchUtils";
 import { allTeams } from "../../redux/teamSlice";
 import TeamRecap from "../../components/team/TeamRecap";
+import { updateStep } from "../../redux/stepSlice";
 
+/**
+ * Affiche un tableau des équipes, par groupe, avec Victoires, défaites, Nuls, Buts marqués, Buts encaissés, Différence de buts,Nombre de points
+ * @returns
+ */
 const Recap = () => {
     const navigate = useNavigate();
     const teams = useSelector(allTeams);
+    const dispatch = useDispatch();
+    const step = useSelector((state) => state.steps.step);
 
+    console.log(step);
     useEffect(() => {
-        const shouldGoToHome = gotoHome(teams);
+        const shouldGoToHome = gotoHome(step, 7);
         if (!shouldGoToHome) {
             navigate("/");
         }
     }, [navigate, teams]);
+
+    useEffect(() => {
+        if (step === 6) dispatch(updateStep(7));
+    }, []);
+
     return (
         <div>
-            <h1 className="title">Recap scores</h1>
+            <h1 className="title">Recap scores </h1>
             <div className="recap-container">
                 {["A", "B", "C", "D", "E", "F"].map((group) => (
                     <div className="recap-group" key={"group" + group}>
                         <div className="recap-head">
                             <h2>Groupe {group}</h2>
-                            <div className="score">Nombre de matchs</div>
                             <div className="score">Victoires</div>
                             <div className="score">Défaites</div>
                             <div className="score">Nuls</div>

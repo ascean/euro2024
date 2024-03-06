@@ -42,7 +42,7 @@ export function generateMatches(teams, teamId, allMatches) {
             //Si aucun match n'existe entre les deux équipes, nous ajoutons ce match à allMatches
             if (!existingMatch) {
                 allMatches.push([
-                    1,
+                    0,
                     teamId,
                     teams[i].id,
                     getRandomArbitrary(),
@@ -66,8 +66,13 @@ export function playGame(step, team1, team2) {
     }
 }
 
-export function gotoHome(teams) {
+export function gotoHome(actualStep, newStep) {
     // Redirection vers la page Home si le nombre d'équipes en play-off est égal à 12
-    const teamsPlayOff = teams.filter((team) => team.playoff !== null);
-    return teamsPlayOff.length === 12 ? false : true;
+    return (actualStep <= newStep) 
 }
+
+// export function gotoHome(teams) {
+//     // Redirection vers la page Home si le nombre d'équipes en play-off est égal à 12
+//     const teamsPlayOff = teams.filter((team) => team.playoff !== null);
+//     return teamsPlayOff.length === 12 ? false : true;
+// }

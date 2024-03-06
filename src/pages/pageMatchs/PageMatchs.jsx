@@ -4,15 +4,21 @@ import { useNavigate } from "react-router-dom";
 import Match from "../../components/match/Match";
 import { useEffect, useState } from "react";
 import { generateGroupMatches, gotoHome } from "../../utils/matchUtils";
+import { updateStep } from "../../redux/stepSlice";
 
+/**
+ * Affiche les matchs dans les 6 groupes A, B, C, D, E, F: 6 matchs par groupe
+ * @returns
+ */
 const PageMatchs = () => {
     const dispatch = useDispatch();
     const teams = useSelector(allTeams);
     const navigate = useNavigate();
+    const step = useSelector((state) => state.steps.step);
     const [groupMatches, setGroupMatches] = useState({});
 
     useEffect(() => {
-        const shouldGoToHome = gotoHome(teams);
+        const shouldGoToHome = gotoHome(step, 3);
         if (!shouldGoToHome) {
             navigate("/");
         }
@@ -33,11 +39,12 @@ const PageMatchs = () => {
         );
         dispatch(updateScores(allMatches));
         setGroupMatches(updatedGroupMatches);
+        if (step === 2) dispatch(updateStep(3));
     }, []);
 
     return (
         <div className="title">
-            <h1>Matchs de la phase de groupe</h1>
+            <h1>Matchs (phase de groupe) </h1>
             <ul className="match-groups-container">
                 {Object.keys(groupMatches).map((group) => (
                     <li key={group} className="match-groups-item">

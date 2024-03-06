@@ -7,6 +7,7 @@ nav.navbar {
     font-size: 1.1rem !important;
     border-radius: 25px;
     &.active {
+        border: 1px solid white!important;
         background-color: #f9bf4b;
         color: black !important;
         font-weight: bold;

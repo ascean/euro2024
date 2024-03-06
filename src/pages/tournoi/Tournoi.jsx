@@ -11,7 +11,12 @@ import {
 import { gotoHome, playGame } from "../../utils/matchUtils";
 import { useNavigate } from "react-router";
 import Round from "../../components/rounds/Round";
+import { updateStep } from "../../redux/stepSlice";
 
+/**
+ * Page tournoi : affiche les maths des 8ème, quarts, demi et finale
+ * @returns
+ */
 const Tournoi = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -25,6 +30,16 @@ const Tournoi = () => {
     const [play4, setPlay4] = useState(false);
     const [play2, setPlay2] = useState(false);
     const [play1, setPlay1] = useState(false);
+    const step = useSelector((state) => state.steps.step);
+
+    useEffect(() => {
+        const shouldGoToHome = gotoHome(step, 6);
+        if (!shouldGoToHome && !isNavigated) {
+            navigate("/");
+            setIsNavigated(true);
+            return;
+        }
+    }, [navigate, isNavigated]);
 
     const getQualifiedFor8 = (teams) => {
         const teamsA = teams
@@ -352,16 +367,6 @@ const Tournoi = () => {
         return teamsForMatches;
     };
 
-    //retour à la page home si le state n'est pas complet
-    useEffect(() => {
-        const shouldGoToHome = gotoHome(teams);
-        if (!shouldGoToHome && !isNavigated) {
-            navigate("/");
-            setIsNavigated(true);
-            return;
-        }
-    }, [navigate, isNavigated]);
-
     /**
      * Effet utilisé pour générer et jouer des matchs pour les huitièmes de finale.
      * Met à jour les scores et les équipes qualifiées pour les quarts de finale.
@@ -390,6 +395,8 @@ const Tournoi = () => {
 
             // Met à jour l'état avec les équipes qualifiées pour les quarts de finale
             setTeams8(teamsPlaying8);
+            dispatch(updateStep());
+            if (step === 5) dispatch(updateStep(6));
         }
     }, []);
 
@@ -421,6 +428,7 @@ const Tournoi = () => {
 
             // Met à jour l'état avec les équipes qualifiées pour les demi-finales
             setTeams4(teamsPlaying4);
+            if (step === 5) dispatch(updateStep());
         }
     }, [play8, teams8]);
 
@@ -488,7 +496,7 @@ const Tournoi = () => {
 
     return (
         <div>
-            <h1 className="title">Tournoi</h1>
+            <h1 className="title">Tournoi </h1>
             <div className="tournoi-container">
                 {teams.length > 0 && play1 && <Round teams={teams} round={8} />}
                 {teams.length > 0 && play1 && <Round teams={teams} round={4} />}

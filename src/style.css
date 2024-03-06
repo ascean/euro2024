@@ -67,17 +67,17 @@ body li {
   margin-bottom: 3rem;
 }
 
-.qualif-teams.group {
+.wrapper-teams.group {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 }
-.qualif-teams.group .qualif-team {
+.wrapper-teams.group .wrapper-team {
   width: 40%;
 }
 
-.qualif-infos.hat .qualif-container {
+.wrapper-infos.hat .wrapper-container {
   width: 40%;
   padding: 20px 0;
 }
@@ -99,6 +99,24 @@ body li {
   width: 25%;
 }
 
+@media screen and (max-width: 960px) {
+  .wrapper-infos.hat {
+    flex-direction: column;
+  }
+  .wrapper-infos.hat .wrapper-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  .wrapper-infos.hat .wrapper-container {
+    width: 100%;
+  }
+  .hat-item {
+    width: 40%;
+    gap: 0;
+  }
+}
 nav.navbar {
   background-color: #143CDA !important;
 }
@@ -110,6 +128,7 @@ nav.navbar {
   border-radius: 25px;
 }
 .nav-link.active {
+  border: 1px solid white !important;
   background-color: #f9bf4b;
   color: black !important;
   font-weight: bold;
@@ -230,43 +249,73 @@ footer img {
   gap: 5px;
 }
 
-.best-team {
-  border: 1px solid red;
-  width: 100px;
-  background-color: crimson;
-  color: white;
-  text-align: center;
+@media screen and (max-width: 960px) {
+  .tournoi-column ul.round {
+    justify-content: flex-start;
+  }
 }
-.best-team p {
-  color: white;
+@media screen and (max-width: 596px) {
+  .tournoi-column ul.round {
+    width: 80%;
+  }
 }
-
+@media screen and (max-width: 480px) {
+  .wrapper.selections .wrapper-infos .wrapper-container {
+    width: 100%;
+  }
+}
 .tournoi-container {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
 }
 
-.ballotage-title {
-  text-align: center;
+@media screen and (max-width: 980px) {
+  .tournoi-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .tournoi-container .tournoi-column {
+    width: 50%;
+    margin: 0 auto;
+  }
 }
-
-.qualif-infos.ballotage {
+@media screen and (max-width: 480px) {
+  .tournoi-container {
+    flex-direction: column;
+  }
+  .tournoi-container .tournoi-column {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+.wrapper.ballotage {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+.wrapper.ballotage .wrapper-infos.ballotage {
   display: flex;
   flex-direction: row;
   gap: 30px;
   justify-content: center;
+  margin: 0 auto;
+  width: 80%;
 }
 
-.groups-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 50px;
-  margin: 50px auto;
+@media screen and (max-width: 480px) {
+  .wrapper.ballotage .wrapper-infos.ballotage {
+    width: 100%;
+    padding: 20px;
+  }
 }
-
+@media screen and (max-width: 480px) {
+  .wrapper.groups .wrapper-infos .wrapper-container {
+    width: 100%;
+    padding: 20px;
+  }
+}
 .match-groups-container {
   display: flex;
   justify-content: center;
@@ -287,38 +336,52 @@ footer img {
   gap: 20px;
   padding: 20px;
 }
-
-.match-group-container {
+.match-groups-item .match-group-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 100%;
 }
-.match-group-container .match {
+.match-groups-item .match-group-container .match {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
   align-items: center;
 }
-.match-group-container .match .team:first-child {
+.match-groups-item .match-group-container .match .team:first-child {
   display: flex;
   align-items: flex-start;
   width: 33%;
 }
-.match-group-container .match .team:last-child .team-infos {
+.match-groups-item .match-group-container .match .team:last-child .team-infos {
   display: flex;
   align-items: flex-end;
   flex-direction: row-reverse;
 }
 
-.qualif-infos {
+@media screen and (max-width: 1200px) {
+  .match-groups-item {
+    width: 45%;
+  }
+}
+@media screen and (max-width: 900px) {
+  .match-groups-item {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .match-groups-item {
+    width: 100%;
+    padding: 20px;
+  }
+}
+.wrapper-infos {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
 }
-
-.qualif-container {
+.wrapper-infos .wrapper-container {
   box-shadow: 5px 5px 5px grey;
   background-color: white;
   display: flex;
@@ -329,20 +392,30 @@ footer img {
   gap: 20px;
   padding: 20px;
 }
-
-.qualif-teams {
+.wrapper-infos .wrapper-container .wrapper-teams {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
-.qualif-team {
+.wrapper-infos .wrapper-container .wrapper-teams .wrapper-team {
   display: flex;
   align-items: center;
   gap: 20px;
   justify-content: space-between;
 }
 
+@media screen and (max-width: 960px) {
+  .wrapper-infos .wrapper-container {
+    width: 45%;
+    margin: 0 auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  .wrapper-infos .wrapper-container {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
 .recap-container {
   margin: 50px;
   display: flex;
@@ -386,6 +459,10 @@ footer img {
 .recap-head,
 .recap-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
+}
+
+.score.nbpts {
+  font-weight: bold;
 }

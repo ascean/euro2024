@@ -5,11 +5,10 @@
     width: 25%;
     &:last-child {
         border-right: none;
-
     }
     h2 {
         text-align: center;
-        position:absolute;
+        position: absolute;
         top: 0;
     }
     ul.round {
@@ -29,5 +28,17 @@
             width: 250px;
             gap: 5px;
         }
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .tournoi-column ul.round {
+        justify-content: flex-start;
+    }
+}
+
+@media screen and (max-width: 596px) {
+    .tournoi-column ul.round {
+        width: 80%;
     }
 }

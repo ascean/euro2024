@@ -1,17 +1,25 @@
-.best-team {
-    border: 1px solid red;
-    width: 100px;
-    background-color: crimson;
-    color: white;
-    text-align: center;
-    p {
-        color: white;
-    }
-}
-
 .tournoi-container {
     display: flex;
     justify-content: space-between;
     margin: 0 auto;
+}
 
+@media screen and (max-width: 980px) {
+    .tournoi-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        .tournoi-column {
+            width: 50%;
+            margin: 0 auto;
+        }
+    }
+}
+@media screen and (max-width: 480px) {
+    .tournoi-container {
+        flex-direction: column;
+        .tournoi-column {
+            width: 100%;
+            margin: 0 auto;
+        }
+    }
 }

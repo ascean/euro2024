@@ -52,7 +52,7 @@ const Round = ({ teams, round }) => {
                                     team={pair[0]}
                                     matchNumber={matchNumber}
                                     result={
-                                        pair[0].matchList[matchNumber][3] >
+                                        pair[0].matchList[matchNumber][3]>
                                         pair[0].matchList[matchNumber][4]
                                             ? "winner"
                                             : "loser"

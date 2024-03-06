@@ -19,9 +19,9 @@ const getDefaultTeamValues = () => ({
     round2: 0,
     round1: 0,
     order8: 0,
-    order4:0,
-    order2:0,
-    order1:0,
+    order4: 0,
+    order2: 0,
+    order1: 0,
 });
 
 function updateTeamScore(team, match) {
@@ -38,24 +38,37 @@ function updateTeamScore(team, match) {
             `L'équipe avec l'ID ${team.id} n'a pas été trouvée dans l'état.`
         );
     }
-    const resultat =
-        match[3] === match[4] ? "nul" : match[3] > match[4] ? "team1" : "team2";
-    team.nbMatchs += 1;
-    team.nbGoalsPlus += match[3];
-    team.nbGoalsMinus += match[4];
-    team.diffGoals += match[3] - match[4];
-    if (resultat === "nul") {
-        team.nbNuls += 1;
-        team.nbPts += 1;
-    } else if (resultat === "team1") {
-        team.nbWin += 1;
-        team.nbPts += 3;
-    } else if (resultat === "team2") {
-        team.nbLost += 1;
+    if (match[0] !== 8 && match[0] !== 4 && match[0] !== 2 && match[0] !== 1) {
+        const resultat =
+            match[3] === match[4]
+                ? "nul"
+                : match[3] > match[4]
+                ? "team1"
+                : "team2";
+        team.nbMatchs += 1;
+        team.nbGoalsPlus += match[3];
+        team.nbGoalsMinus += match[4];
+        team.diffGoals += match[3] - match[4];
+        if (resultat === "nul") {
+            team.nbNuls += 1;
+            team.nbPts += 1;
+        } else if (resultat === "team1") {
+            team.nbWin += 1;
+            team.nbPts += 3;
+        } else if (resultat === "team2") {
+            team.nbLost += 1;
+        }
     }
 }
 
-const TEAMS = await getDatas();
+let TEAMS = [];
+async function fetchData() {
+    TEAMS = await getDatas();
+    // Autres opérations avec les données récupérées
+}
+
+fetchData(); // Appeler la fonction pour récupérer les données au moment approprié
+
 // nbPts : nombre de points
 // nbMatchs : nombre de matchs joués
 // nbWin : nombre de matchs gagnés
@@ -66,13 +79,14 @@ const TEAMS = await getDatas();
 // diffGoals : différence de Goals (nbGoalsPlus-nbGoalsMinus)
 export const teamSlice = createSlice({
     name: "teams",
+    // Ajout des valeurs par défaut
     initialState: TEAMS.map((team) => ({
         ...team,
         ...getDefaultTeamValues(),
-    })), // Ajout de group et order à chaque équipe
+    })),
     reducers: {
         // Réinitialiser le state des équipes
-        initState: (state) => {
+        initStateTeam: (state) => {
             return TEAMS.map((team) => ({
                 ...team,
                 ...getDefaultTeamValues(),
@@ -114,38 +128,41 @@ export const teamSlice = createSlice({
         },
         updateScores(state, action) {
             const newMatchLists = action.payload;
-            newMatchLists && newMatchLists.forEach((match) => {
-                const matchTeam1 = match;
-                const team1 = state.find((team) => team.id === matchTeam1[1]);
-                updateTeamScore(team1, matchTeam1);
+            newMatchLists &&
+                newMatchLists.forEach((match) => {
+                    const matchTeam1 = match;
+                    const team1 = state.find(
+                        (team) => team.id === matchTeam1[1]
+                    );
+                    updateTeamScore(team1, matchTeam1);
 
-                const matchTeam2 = [
-                    match[0],
-                    match[2],
-                    match[1],
-                    match[4],
-                    match[3],
-                ];
-                const team2 = state.find((team) => team.id === matchTeam2[1]);
-                updateTeamScore(team2, matchTeam2);
-            });
+                    const matchTeam2 = [
+                        match[0],
+                        match[2],
+                        match[1],
+                        match[4],
+                        match[3],
+                    ];
+                    const team2 = state.find(
+                        (team) => team.id === matchTeam2[1]
+                    );
+                    updateTeamScore(team2, matchTeam2);
+                });
         },
 
-        
-        
         updateRound16: (state, action) => {
-            const selectedTeamIds = action.payload.map(team => team.id);
+            const selectedTeamIds = action.payload.map((team) => team.id);
             return state.map((team) => {
                 if (selectedTeamIds.includes(team.id)) {
                     return {
                         ...team,
-                        round16: true
+                        round16: true,
                     };
                 }
                 return team; // Retourner l'équipe inchangée si elle n'a pas été sélectionnée
             });
         },
-        
+
         updateRound8: (state, action) => {
             const { teamId, round8, order } = action.payload;
             return state.map((team) => {
@@ -153,7 +170,7 @@ export const teamSlice = createSlice({
                     return {
                         ...team,
                         round8: round8,
-                        order8:order
+                        order8: order,
                     };
                 }
                 return team;
@@ -166,7 +183,7 @@ export const teamSlice = createSlice({
                     return {
                         ...team,
                         round4: round4,
-                        order4:order
+                        order4: order,
                     };
                 }
                 return team;
@@ -179,7 +196,7 @@ export const teamSlice = createSlice({
                     return {
                         ...team,
                         round2: round2,
-                        order2:order
+                        order2: order,
                     };
                 }
                 return team;
@@ -192,13 +209,12 @@ export const teamSlice = createSlice({
                     return {
                         ...team,
                         round1: round1,
-                        order1:order
+                        order1: order,
                     };
                 }
                 return team;
             });
         },
-        
     },
 });
 
@@ -208,7 +224,7 @@ export const {
     updateTeamHat,
     clearTeamsPlayoff,
     updateTeamGroupAndOrder,
-    initState,
+    initStateTeam,
     updateScores,
     updateRound16,
     updateRound8,

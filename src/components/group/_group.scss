@@ -1,9 +1,9 @@
-.qualif-teams.group {
+.wrapper-teams.group {
     display: flex;
     flex-direction: row;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     justify-content: center;
-    .qualif-team {
+    .wrapper-team {
         width: 40%;
     }
 }

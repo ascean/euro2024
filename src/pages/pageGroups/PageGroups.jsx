@@ -5,15 +5,20 @@ import { useEffect } from "react";
 import Group from "../../components/group/Group";
 import { useNavigate } from "react-router-dom";
 import { gotoHome } from "../../utils/matchUtils";
+import { updateStep } from "../../redux/stepSlice";
 
+/**
+ * Page affichant les 6 groupes A, B, C, D, E, F. Chaque groupe est constitué de 4 équipes
+ * @returns
+ */
 const PageGroups = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const step = useSelector((state) => state.steps.step);
     const teams = useSelector(allTeams);
 
     useEffect(() => {
-        const shouldGoToHome = gotoHome(teams);
+        const shouldGoToHome = gotoHome(step, 2);
         if (!shouldGoToHome) {
             navigate("/");
         }
@@ -39,6 +44,7 @@ const PageGroups = () => {
                 order++;
             });
         dispatch(updateTeamGroupAndOrder({ newTeams }));
+        if (step === 1) dispatch(updateStep(2));
     };
 
     useEffect(() => {
@@ -47,9 +53,9 @@ const PageGroups = () => {
     }, []);
 
     return (
-        <div className="qualif">
-            <h1 className="title">Play Off</h1>
-            <ul className="qualif-infos">
+        <div className="wrapper groups">
+            <h1 className="title">Groupes</h1>
+            <ul className="wrapper-infos">
                 <Group />
             </ul>
         </div>

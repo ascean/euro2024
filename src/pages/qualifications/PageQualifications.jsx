@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
-import {useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { allTeams } from "../../redux/teamSlice";
 import Team from "../../components/team/Team";
 import { gotoHome } from "../../utils/matchUtils";
 import { useNavigate } from "react-router";
+import { updateStep } from "../../redux/stepSlice";
 
 const PageQualifications = () => {
     const navigate = useNavigate();
     const teams = useSelector(allTeams);
+    const dispatch = useDispatch();
+    const step = useSelector((state) => state.steps.step);
     const [selectedTeams, setSelectedTeams] = useState([]);
     const [topTwoTeamsPerGroup, setTopTwoTeamsPerGroup] = useState([]);
     const [thirdPlaceTeams, setThirdPlaceTeams] = useState([]);
 
     useEffect(() => {
-        const shouldGoToHome = gotoHome(teams);
+        const shouldGoToHome = gotoHome(step, 4);
         if (!shouldGoToHome) {
             navigate("/");
         }
@@ -37,6 +40,7 @@ const PageQualifications = () => {
             return 0; //
         });
         setSelectedTeams(orderedTeams);
+        if (step === 4) dispatch(updateStep(5));
     }, []);
 
     const getTopTwoTeamsPerGroup = (teams) => {
@@ -73,19 +77,22 @@ const PageQualifications = () => {
     };
 
     return (
-        <div className="qualif">
-            <h1 className="title">Qualifications</h1>
-            <div className="qualif-infos">
+        <div className="wrapper qualifications">
+            <h1 className="title">Qualifications </h1>
+            <div className="wrapper-infos">
                 {["A", "B", "C", "D", "E", "F"].map((group) => (
-                    <div className="qualif-container" key={"group" + group}>
+                    <div className="wrapper-container" key={"group" + group}>
                         <h2>Groupe {group}</h2>
-                        <ul className="qualif-teams">
+                        <ul className="wrapper-teams">
                             {teams
                                 .filter((team) => team.group === group)
                                 .map((team) => (
-                                    <li className="qualif-team" key={team.name}>
-                                        <Team team={team} order={null} />
-                                        ({team.nbPts} points)
+                                    <li
+                                        className="wrapper-team"
+                                        key={team.name}
+                                    >
+                                        <Team team={team} order={null} />(
+                                        {team.nbPts} points)
                                     </li>
                                 ))}
                         </ul>
