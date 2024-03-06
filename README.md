@@ -49,6 +49,13 @@ or
   yarn install
 ```
 
+## Environment variables
+Create .env file with :
+
+VITE_API_URL = https://football.shrp.dev/items/countries
+
+VITE_PATH_SVG = /flags/4x3/
+
 ## Run the project
 
 ```bash
