@@ -1,2 +1,2 @@
-export const API_URL = 'https://football.shrp.dev/items/countries'
-export const PATH_SVG = "/flags/4x3/"
+export const API_URL = import.meta.env.VITE_API_URL
+export const PATH_SVG = import.meta.env.VITE_PATH_SVG

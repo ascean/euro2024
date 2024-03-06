@@ -15,11 +15,9 @@ const Home = () => {
     const teams = useSelector(allTeams);
     const [showPlayoff, setShowPlayoff] = useState(false);
     const step = useSelector((state) => state.steps.step);
-    console.log(teams);
 
     const handleResetTeams = () => {
         dispatch(initStateTeam());
-        console.log(teams.length);
         dispatch(initStateStep());
     };
 

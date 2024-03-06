@@ -16,7 +16,6 @@ const Recap = () => {
     const dispatch = useDispatch();
     const step = useSelector((state) => state.steps.step);
 
-    console.log(step);
     useEffect(() => {
         const shouldGoToHome = gotoHome(step, 7);
         if (!shouldGoToHome) {

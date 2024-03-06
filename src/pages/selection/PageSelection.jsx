@@ -19,7 +19,7 @@ const PageSelection = () => {
     const [thirdPlaceTeams, setThirdPlaceTeams] = useState([]);
 
     const step = useSelector((state) => state.steps.step);
-    console.log(step);
+
     useEffect(() => {
         const shouldGoToHome = gotoHome(step, 5);
         if (!shouldGoToHome) {

@@ -18,7 +18,6 @@ const Playoff = () => {
     const [showPlayoff, setShowPlayoff] = useState(false);
     const step = useSelector((state) => state.steps.step);
 
-    console.log(step);
     useEffect(() => {
         const shouldGoToHome = gotoHome(step, 2);
         if (!shouldGoToHome) {
