@@ -31,18 +31,45 @@ const Recap = () => {
     return (
         <div>
             <h1 className="title">Recap scores </h1>
+            <p className="legende no-mobile"></p>
             <div className="recap-container">
                 {["A", "B", "C", "D", "E", "F"].map((group) => (
                     <div className="recap-group" key={"group" + group}>
                         <div className="recap-head">
-                            <h2>Groupe {group}</h2>
-                            <div className="score">Victoires</div>
-                            <div className="score">Défaites</div>
-                            <div className="score">Nuls</div>
-                            <div className="score">Buts marqués</div>
-                            <div className="score">Buts encaissés</div>
-                            <div className="score">Différence de buts</div>
-                            <div className="score">Nombre de points</div>
+                            <h2 className="no-mobile">Groupe {group}</h2>
+                            <h2 className="mobile">Gr {group}</h2>
+                            <div className="score">
+                                <div className="no-mobile">Points</div>
+                                <div className="mobile">Pts</div>
+                            </div>
+                            <div className="score">
+                                <div className="no-mobile">Matchs</div>
+                                <div className="mobile">J</div>
+                            </div>
+                            <div className="score">
+                                <div className="no-mobile">Victoires</div>
+                                <div className="mobile">G</div>
+                            </div>
+                            <div className="score">
+                                <div className="no-mobile">Nuls</div>
+                                <div className="mobile">N</div>
+                            </div>
+                            <div className="score">
+                                <div className="no-mobile">Défaites</div>
+                                <div className="mobile">P</div>
+                            </div>
+                            <div className="score">
+                                <div className="no-mobile">Buts marqués</div>
+                                <div className="mobile">BP</div>
+                            </div>
+                            <div className="score">
+                                <div className="no-mobile">Buts encaissés</div>
+                                <div className="mobile">BE</div>
+                            </div>
+                            <div className="score">
+                                <div className="no-mobile">Différence de buts</div>
+                                <div className="mobile">Diff</div>
+                            </div>
                         </div>
                         <div className="recap-rows">
                             {teams

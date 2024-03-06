@@ -32,3 +32,24 @@
     flex-direction: column;
     gap: 20px;
 }
+.no-mobile {
+    display:block;
+}
+.mobile {
+    display:none;
+}
+
+@media screen and (max-width: 1200px) {
+    .no-mobile {
+        display: none;
+    }
+    .mobile {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 590px) {
+.recap-container {
+    margin: 50px 10px;
+}
+}

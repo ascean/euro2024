@@ -19,6 +19,7 @@ const Home = () => {
 
     const handleResetTeams = () => {
         dispatch(initStateTeam());
+        console.log(teams.length);
         dispatch(initStateStep());
     };
 
